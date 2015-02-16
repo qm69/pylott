@@ -42,7 +42,7 @@ class DrawCount(object):
 
             ball_data = dict(
                 ball=ball,
-                position=position + 1,
+                posit=position + 1,
                 hot='',
                 odd='',
                 more='',

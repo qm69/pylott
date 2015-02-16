@@ -5,13 +5,14 @@ from pymongo import MongoClient
 from libs.base_keno_draw import DrawCount
 
 client = MongoClient('localhost', 27017)
-db = client['draw-base']
-# посмотреть вместо collection = db['test-collection']
-mon_draws = db.test_keno
+
+db = client['lottmean-dev']
+mon_draws = db['kenos']
 
 text_arr = open('results/keno_5053.csv', 'r').read().split('\n')
 
-# make this of lists['5033', '2015-01-20', 'A', '2', '23, ... 35'],
+# make this of lists
+# ['5033', '2015-01-20', 'A', '2', '23, ... 35'],
 res_arr = [draw.split(';') for draw in text_arr]
 
 for i, res_draw in enumerate(res_arr):
@@ -20,21 +21,21 @@ for i, res_draw in enumerate(res_arr):
 
         # Split and reverce DATA value
         date_arry = reversed(res_draw[1].split('-'))
-        res_balls = [int(ball, 10) for ball in res_draw[4].split(',')]
+        res_balls = res_draw[4].split(',')
+        tron_list = [res_draw[2], res_draw[3]]
         count_draw = dict(
-            firma='unl',
-            tirag=int(res_draw[0], 10),
+            comp='unl',
+            draw=int(res_draw[0], 10),
             date='{}.{}.{}'.format(*date_arry),
-            tron=res_draw[2],
-            nabor=res_draw[3],
-            # create TUPLE to prevent sorting
+            tron=tron_list,
             results=res_balls
         )
-        # create an array of integer ball resalts
-        f = lambda x: [int(ball, 10) for ball in x[4].split(',')]
-        int_arr = list(map(f, res_arr[i:30]))
 
-        init_cntr = DrawCount(int_arr, count_draw['tirag'])
+        # create an array of integer ball resalts
+        func = lambda x: [int(ball, 10) for ball in x[4].split(',')]
+        int_arr = list(map(func, res_arr[i:30]))
+
+        init_cntr = DrawCount(int_arr, count_draw['draw'])
 
         count_draw['balls'] = init_cntr.ball_counter()
         count_draw['chart'] = init_cntr.get_chart()
