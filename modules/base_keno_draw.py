@@ -6,15 +6,13 @@ class DrawCount(object):
     """ This is my first class written @ Python 3.4
 
     Arguments:
-        draws @ list: len == 30 >> list >> int;
-        [...
-            [64,48,79,70,40,69,20,59,66,61,80,53,78,57,28,13,76,72,26,65] ...]
-        tirag @ int: номер тиража
 
-    Methods:
-        get_balls  @ list: len == 20 >> dict: keys == 9;
-        get_charts @ dict: keys == 7;
-        get_odds   @ dict: keys == 5;
+        draws @ list: len == 30 >> list >> int; like:
+        [...
+            [64,48,79,70,40,69,20,59,66,61,80,53,78,57,28,13,76,72,26,65],
+        ...]
+
+        tirag @ int: номер тиража
     """
     def __init__(self, draws, tirag):
         """
@@ -33,6 +31,9 @@ class DrawCount(object):
         }
 
     def get_balls(self):
+        """
+        return @ list: len == 20 >> dict: keys == 9;
+        """
         #  потом данные брать из тиража из db.keno.balls
         period = [
             0,
@@ -148,29 +149,14 @@ class DrawCount(object):
         return balls
 
     def get_charts(self):
+        """
+        return @ dict: keys == 7;
+        """
         return self.chart
 
-    #   private_methos
-    def __serializer(self, ball, tip, n):
-        """
-        describe
-        """
-        series = []
-        for draw in self.draws[1:n]:
-            if ball in draw:
-                series.append(1)
-            else:
-                series.append(0)
-        if tip == 'povtory':
-            return sum(series)
-        elif tip == 'active':
-            return series
-        elif tip == 'rise':
-            return sum(series)
-
     def get_odds(self):
-        """Count books data and return the dict with
-        values of 'summ', 'first', 'last', 'lowest', 'bigest'
+        """
+        return @ dict: keys == 5;
         """
         draw = self.draw
         # add css classes for summ lower or bigger for coloring
@@ -203,3 +189,21 @@ class DrawCount(object):
             'lowest': [lowest, lowest_even, lowest_numb],
             'bigest': [bigest, bigest_even, bigest_numb]
         }
+
+    #   private_methos
+    def __serializer(self, ball, tip, n):
+        """
+        describe
+        """
+        series = []
+        for draw in self.draws[1:n]:
+            if ball in draw:
+                series.append(1)
+            else:
+                series.append(0)
+        if tip == 'povtory':
+            return sum(series)
+        elif tip == 'active':
+            return series
+        elif tip == 'rise':
+            return sum(series)
