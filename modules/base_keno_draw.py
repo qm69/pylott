@@ -3,8 +3,18 @@
 
 
 class DrawCount(object):
-    """
-    Some Class
+    """ This is my first class written @ Python 3.4
+
+    Arguments:
+        draws @ list: len == 30 >> list >> int;
+        [...
+            [64,48,79,70,40,69,20,59,66,61,80,53,78,57,28,13,76,72,26,65] ...]
+        tirag @ int: номер тиража
+
+    Methods:
+        get_balls  @ list: len == 20 >> dict: keys == 9;
+        get_charts @ dict: keys == 7;
+        get_odds   @ dict: keys == 5;
     """
     def __init__(self, draws, tirag):
         """
@@ -22,7 +32,7 @@ class DrawCount(object):
             'rise': [tirag, 0, 0]
         }
 
-    def ball_counter(self):
+    def get_balls(self):
         #  потом данные брать из тиража из db.keno.balls
         period = [
             0,
@@ -79,6 +89,7 @@ class DrawCount(object):
                 self.chart['more'][2] += 1
 
             # 4 First, Second, Third or Fourth
+            # по двадцаткам
             if (ball > 0 and ball <= 20):
                 ball_data['twenty'] = 'first'
                 self.chart['twenty'][1] += 1
@@ -92,23 +103,23 @@ class DrawCount(object):
                 ball_data['twenty'] = 'fourth'
                 self.chart['twenty'][4] += 1
 
-            # 5 Once, Twice, Threce, Fource or More
-            # сколько раз подряд выпадал
-            podr = self.podryad(ball)
+            # 5 к-во повторов povtor
+            # Once, Twice, Threce, Fource or More
+            podryad = self.__serializer(ball, 'povtory', 7)
             obj_podr = {
                 0: 'once', 1: 'twice', 2: 'threce',
                 3: 'fource', 4: 'fifce', 5: 'sixce'
             }
 
-            ball_data['vypad'] = obj_podr[podr]
+            ball_data['vypad'] = obj_podr[podryad]
             if (ball_data['vypad'] != 'once'):
                 self.chart['povtor'][1] += 1
 
             # 6 Active, Passive or Neit
-            # active [1,1....]
-            # passive [0,0,0,0,0,0]
-            # neitr -> other
-            repeat = self.activator(ball)
+            # active  -> [1,1....]
+            # passive -> [0,0,0,0,0,0]
+            # neitr   -> other
+            repeat = self.__serializer(ball, 'active', 8)
             if (repeat[0] == 1 and repeat[1] == 1):
                 ball_data['active'] = 'active'
                 self.chart['active'][1] += 1
@@ -121,7 +132,7 @@ class DrawCount(object):
             # 7 Rise or Fall
             # 4.15 * 6 ~ 25 draws
             n = round(period[ball] * 6)
-            res_map = self.reise_reise(ball, n)
+            res_map = self.__serializer(ball, 'rise', n)
 
             if (res_map >= 9):
                 ball_data['rise'] = 'rise'
@@ -136,48 +147,31 @@ class DrawCount(object):
 
         return balls
 
-    def get_chart(self):
+    def get_charts(self):
         return self.chart
 
-    def activator(self, ball):
+    #   private_methos
+    def __serializer(self, ball, tip, n):
         """
-        как переписать в одну строку
+        describe
         """
-        rep_draws = self.draws[1:7]
-        summ = []
-        for d in rep_draws:
-            if ball in d:
-                summ.append(1)
-            else:
-                summ.append(0)
-
-        return summ
-
-    def podryad(self, ball):
-        """
-        как обединить с 'repeat_cntr'
-        """
-        draws = self.draws[1:8]
-        summ = 0
-        for draw in draws:
+        series = []
+        for draw in self.draws[1:n]:
             if ball in draw:
-                summ += 1
+                series.append(1)
             else:
-                return summ
-        return summ
+                series.append(0)
+        if tip == 'povtory':
+            return sum(series)
+        elif tip == 'active':
+            return series
+        elif tip == 'rise':
+            return sum(series)
 
-    def reise_reise(self, ball, n):
+    def get_odds(self):
+        """Count books data and return the dict with
+        values of 'summ', 'first', 'last', 'lowest', 'bigest'
         """
-        как обединить с 'repeat_cntr'
-        """
-        draws = self.draws[:n]
-        summ = 0
-        for draw in draws:
-            if ball in draw:
-                summ += 1
-        return summ
-
-    def booker(self):
         draw = self.draw
         # add css classes for summ lower or bigger for coloring
         s1 = sum(list(filter(lambda x: x < 41, draw)))
