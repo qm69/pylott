@@ -1,7 +1,14 @@
 modules/base_keno_draw.py:
- ☐ anotate 'get_balls' and describe interface
- ☐ anotate 'get_charts' and describe interface
- ☐ anotate 'get_odds' and describe interface
+ ✔ anotate 'get_balls' and describe interface @done (15-02-28 20:25)
+ ✔ anotate 'get_charts' and describe interface @done (15-02-28 20:09)
+ ✔ anotate 'get_odds' and describe interface @done (15-02-28 20:17)
+
+modules/base_keno_ball.py:
+ ☐ cont 'miss': последний пропуск
+ ☐ count 'silent': предпоследний пропуск + 1 ?
+
+modules/base_keno_tenth.py:
+ ☐ 
 
 
 

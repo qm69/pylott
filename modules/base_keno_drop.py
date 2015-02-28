@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class DrawCount(object):
+class DropCount(object):
     """ This is my first class written @ Python 3.4
 
     Arguments:
@@ -23,7 +23,7 @@ class DrawCount(object):
         self.chart = {
             'hot': [tirag, 0, 0],
             'odd': [tirag, 0, 0],
-            'more': [tirag, 0, 0],
+            'halfs': [tirag, 0, 0],
             'twenty': [tirag, 0, 0, 0, 0],
             'povtor': [tirag, 0],
             'active': [tirag, 0, 0],
@@ -32,7 +32,19 @@ class DrawCount(object):
 
     def get_balls(self):
         """
-        return @ list: len == 20 >> dict: keys == 9;
+        Returns:
+            ball @ list: len == 20 >> dict:
+            {
+                ball: 46,
+                posit: 12,
+                hot: 'cold',
+                odd: 'odd',
+                half: 'last',
+                twenty: 'third',
+                vypad: 'twice',
+                active: 'passive',
+                rise: 'neit'
+            }
         """
         #  потом данные брать из тиража из db.keno.balls
         period = [
@@ -56,7 +68,7 @@ class DrawCount(object):
                 posit=position + 1,
                 hot='',
                 odd='',
-                more='',
+                half='',
                 twenty='',
                 vypad='',
                 active='',
@@ -83,11 +95,11 @@ class DrawCount(object):
 
             # 3 More or Less
             if (ball % 2 == 0):
-                ball_data['more'] = 'more'
-                self.chart['more'][1] += 1
+                ball_data['half'] = 'last'
+                self.chart['halfs'][1] += 1
             else:
-                ball_data['more'] = 'less'
-                self.chart['more'][2] += 1
+                ball_data['half'] = 'first'
+                self.chart['halfs'][2] += 1
 
             # 4 First, Second, Third or Fourth
             # по двадцаткам
@@ -150,13 +162,31 @@ class DrawCount(object):
 
     def get_charts(self):
         """
-        return @ dict: keys == 7;
+        Returns:
+            self.chart @ dict:
+            {
+                'hot': [5043, 4, 3],
+                'odd': [5043, 13, 7],
+                'halfs': [5043, 9, 11],
+                'twenty': [5043, 4, 5, 6, 5],
+                'povtor': [5043, 3],
+                'active': [5043, 2, 4],
+                'rise': [5043, 1, 2]
+            }
         """
         return self.chart
 
     def get_odds(self):
         """
-        return @ dict: keys == 5;
+        Returns:
+            @ dict:
+            {
+                'summ': [648, 215, 432],
+                'first': [38, 'odd', 'lower'],
+                'last': [43, 'even', 'higher'],
+                'lowest': [1, 'even', 'true'],
+                'bigest': [78, 'odd', 'false']
+            }
         """
         draw = self.draw
         # add css classes for summ lower or bigger for coloring
@@ -193,7 +223,10 @@ class DrawCount(object):
     #   private_methos
     def __serializer(self, ball, tip, n):
         """
-        describe
+        internal function for counting
+        5: povtor
+        6: active/passive
+        7: rise/fall
         """
         series = []
         for draw in self.draws[1:n]:

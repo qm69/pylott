@@ -8,22 +8,20 @@ import pytest
 # http://stackoverflow.com/questions/714063/
 sys.path.append('/home/qm69/code/python/lottery')
 
-from pylott.modules.base_keno_draw import DrawCount
+from pylott.modules.base_keno_drop import DropCount
 from pylott.results.keno_list_1000 import draw_list
 
 """
 @pytest.fixture(scope="module")
 @pytest.fixture(scope="session")
-@pytest.fixture(
-    scope="function",
-    params=["mod1", "mod2"]
-)
+@pytest.fixture(scope="function")
+@pytest.fixture(params=["mod1", "mod2"])
 """
 
 
 @pytest.fixture(scope="module")
 def dc():
-    return DrawCount(draw_list[:30], 5053)
+    return DropCount(draw_list[:30], 5053)
 
 
 class TestClass:
@@ -32,7 +30,7 @@ class TestClass:
     def setup_class(cls):
         pass
 
-    def test_get_balls(self, dc):
+    def test_drop_get_balls(self, dc):
         resp = dc.get_balls()
 
         # test the whole list
@@ -50,7 +48,7 @@ class TestClass:
             assert ball['odd'] in ['odd', 'even']
 
             # 3 More or Less
-            assert ball['more'] in ['more', 'less']
+            assert ball['half'] in ['first', 'last']
 
             # 4 First, Second, Third or Fourth
             twenty_val = ['first', 'second', 'third', 'fourth']
@@ -66,21 +64,21 @@ class TestClass:
             # 7 Rise or Fall
             assert ball['rise'] in ['rise', 'fall', 'neit']
 
-    def test_get_charts(self, dc):
+    def test_drop_get_charts(self, dc):
         resp = dc.get_charts()
 
         # 'odd'
         assert sum(resp['odd'][1:]) == 20
 
-        # 'more'
-        assert sum(resp['more'][1:]) == 20
+        # 'halfs'
+        assert sum(resp['halfs'][1:]) == 20
 
         # 'twenty'
         assert sum(resp['twenty'][1:]) == 20
 
         # 'hot', 'povtor', 'active', 'rise'
 
-    def test_get_odds(self, dc):
+    def test_drop_get_odds(self, dc):
         resp = dc.get_odds()
 
         # summ of second half < 610

@@ -14,10 +14,8 @@ from pylott.results.keno_list_1000 import draw_list
 """
 @pytest.fixture(scope="module")
 @pytest.fixture(scope="session")
-@pytest.fixture(
-    scope="function",
-    params=["mod1", "mod2"]
-)
+@pytest.fixture(scope="function")
+@pytest.fixture(params=["mod1", "mod2"])
 """
 
 
@@ -52,8 +50,7 @@ class TestClass:
 
             # period
             assert type(ball['period']) is float
-            assert ball['period'] < 5
-            assert ball['period'] > 3
+            assert ball['period'] < 5 and ball['period'] > 3
 
             # miss
             assert type(ball['miss']) is int

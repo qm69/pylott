@@ -2,12 +2,6 @@
 # -*- coding: utf-8 -*-
 
 
-def __pop_zer(items):
-    while items[-1] == 0:
-        items.pop()
-    return items
-
-
 def ball_counter(draws):
     """
     Arguments:
@@ -15,22 +9,32 @@ def ball_counter(draws):
             [64,48,79,70,40, ... 13,76,72,26,65],
 
     Returns:
-        res_list @ list >> dict:
-            {
-                'ball': 34,
-                'drop': 1190,
-                'period': 3.97,
-                'miss': 1,
-                'silent': 12,
-                'max_pass': 28,
-                'max_inrow': 9,
-                series: [
-                    [347, 123, 67, 45, 23, 12, 6, 3, 1],
-                    [443, 117, 69, 51, 31, 15, 9, 6, 3, 1],
-                ]
-            }
+        resp_list @ list: len == 80 >> dict:
+        {
+            'ball': 34,
+            'drop': 1190,
+            'period': 3.97,
+            'miss': 1,
+            'silent': 12,
+            'max_pass': 28,
+            'max_inrow': 9,
+            series: [
+                [347, 123, 67, 45, 23, 12, 6, 3, 1],
+                [443, 117, 69, 51, 31, 15, 9, 6, 3, 1],
+            ]
+        }
     """
-    res_list = []
+    resp_list = []
+
+    def pop_zeros(items):
+        """
+        incapsulated internal fuction that
+        trim zeros in 'ser_inrow' & 'ser_pass'
+        """
+        while items[-1] == 0:
+            items.pop()
+        return items
+
     for ball in list(range(1, 81)):
 
         # выпадения и длина серии
@@ -61,7 +65,7 @@ def ball_counter(draws):
                     length += 1
         period = len(draws) / drop
 
-        res_list.append(dict(
+        resp_list.append(dict(
             ball=ball,
             drop=drop,
             period=period,
@@ -70,9 +74,9 @@ def ball_counter(draws):
             max_inrow=len(ser_inrow),
             max_pass=len(ser_pass),
             series=[
-                __pop_zer(ser_inrow),
-                __pop_zer(ser_pass)
+                pop_zeros(ser_inrow),
+                pop_zeros(ser_pass)
             ]
         ))
 
-    return res_list
+    return resp_list
