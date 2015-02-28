@@ -45,24 +45,28 @@ class TestClass:
             assert type(ball['ball']) is int
             assert ball['ball'] < 81
 
-            assert type(ball['dropped']) is int
-            assert ball['dropped'] > 0
+            assert type(ball['drop']) is int
+            assert ball['drop'] > 0
 
             assert type(ball['period']) is float
             assert ball['period'] < 5
             assert ball['period'] > 3
 
-            assert type(ball['missed']) is int
-            assert ball['missed'] >= 0
+            assert type(ball['miss']) is int
+            assert ball['miss'] >= 0
 
             assert type(ball['silent']) is int
             assert ball['silent'] >= 0
 
-            assert type(ball['max_pass']) is int
-            assert ball['max_pass'] >= 0
-
             assert type(ball['max_inrow']) is int
             assert ball['max_inrow'] >= 0
 
+            assert type(ball['max_pass']) is int
+            assert ball['max_pass'] >= 0
+
             assert type(ball['series']) is list
             assert len(ball['series']) == 2
+
+            # test for zeros at the end of each list
+            assert ball['series'][0][-1] != 0
+            assert ball['series'][0][-1] != 0
