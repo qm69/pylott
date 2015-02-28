@@ -42,28 +42,36 @@ class TestClass:
         for ball in bc:
             assert type(ball) is dict
 
+            # ball
             assert type(ball['ball']) is int
             assert ball['ball'] < 81
 
+            # drop
             assert type(ball['drop']) is int
             assert ball['drop'] > 0
 
+            # period
             assert type(ball['period']) is float
             assert ball['period'] < 5
             assert ball['period'] > 3
 
+            # miss
             assert type(ball['miss']) is int
             assert ball['miss'] >= 0
 
+            # silent
             assert type(ball['silent']) is int
             assert ball['silent'] >= 0
 
+            # max_inrow
             assert type(ball['max_inrow']) is int
             assert ball['max_inrow'] >= 0
 
+            # max_pass
             assert type(ball['max_pass']) is int
             assert ball['max_pass'] >= 0
 
+            # series
             assert type(ball['series']) is list
             assert len(ball['series']) == 2
 
