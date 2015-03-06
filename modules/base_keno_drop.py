@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import math
+
 
 class DropCount(object):
     """ This is my first class written @ Python 3.4
@@ -12,22 +14,23 @@ class DropCount(object):
             [64,48,79,70,40,69,20,59,66,61,80,53,78,57,28,13,76,72,26,65],
         ...]
 
-        tirag @ int: номер тиража
+        tirag @ int: number of draw
     """
     def __init__(self, draws, tirag):
         """
-        Explenetion of inicialization
+        Explanation of initialization
         """
         self.draws = draws
         self.draw = draws[0]
         self.chart = {
-            'hot': [tirag, 0, 0],
-            'odd': [tirag, 0, 0],
-            'halfs': [tirag, 0, 0],
-            'twenty': [tirag, 0, 0, 0, 0],
-            'povtor': [tirag, 0],
-            'active': [tirag, 0, 0],
-            'rise': [tirag, 0, 0]
+            'hots': [tirag, 0, 0],
+            'evens': [tirag, 0, 0],
+            'halves': [tirag, 0, 0],
+            'twentys': [tirag, 0, 0, 0, 0],
+            'repeats': [tirag, 0],
+            'actives': [tirag, 0, 0],
+            'rising': [tirag, 0, 0],
+            'tenth': [tirag, 0, 0, 0, 0, 0, 0, 0, 0]
         }
 
     def get_balls(self):
@@ -35,18 +38,19 @@ class DropCount(object):
         Returns:
             ball @ list: len == 20 >> dict:
             {
-                ball: 46,
-                posit: 12,
+                ball: 46, @ int
+                place: 12, @ int
                 hot: 'cold',
-                odd: 'odd',
+                even: 'even',
                 half: 'last',
                 twenty: 'third',
-                vypad: 'twice',
+                repeat: 'twice',
                 active: 'passive',
                 rise: 'neit'
             }
         """
-        #  потом данные брать из тиража из db.keno.balls
+        # THEN data about the period of ball
+        # TAKE from the db.keno.balls
         period = [
             0,
             3.87, 3.94, 3.92, 4.01, 4.02, 3.90, 4.05, 4.14, 3.94, 3.74,
@@ -65,97 +69,108 @@ class DropCount(object):
 
             ball_data = dict(
                 ball=ball,
-                posit=position + 1,
+                place=position + 1,
                 hot='',
-                odd='',
+                even='',
                 half='',
                 twenty='',
-                vypad='',
+                repeat='',
                 active='',
                 rise=''
             )
 
             # 1 Hot or Cold
+            # 'hot', 'cold' or 'neit'
             if (period[ball] <= 3.91):
                 ball_data['hot'] = 'hot'
-                self.chart['hot'][1] += 1
+                self.chart['hots'][1] += 1
             elif (period[ball] >= 4.09):
                 ball_data['hot'] = 'cold'
-                self.chart['hot'][2] += 1
+                self.chart['hots'][2] += 1
             else:
                 ball_data['hot'] = 'neit'
 
-            # 2 Odd or Even
+            # 2 Even or odd
+            # 'even' or 'odd'
             if (ball % 2 == 0):
-                ball_data['odd'] = 'even'
-                self.chart['odd'][1] += 1
+                ball_data['even'] = 'even'
+                self.chart['evens'][1] += 1
             else:
-                ball_data['odd'] = 'odd'
-                self.chart['odd'][2] += 1
+                ball_data['even'] = 'odd'
+                self.chart['evens'][2] += 1
 
             # 3 More or Less
+            # 'last' or 'first'
             if (ball % 2 == 0):
                 ball_data['half'] = 'last'
-                self.chart['halfs'][1] += 1
+                self.chart['halves'][1] += 1
             else:
                 ball_data['half'] = 'first'
-                self.chart['halfs'][2] += 1
+                self.chart['halves'][2] += 1
 
-            # 4 First, Second, Third or Fourth
-            # по двадцаткам
+            # 4 by twenty
+            # 'first', 'second', 'third' or 'fourth'
             if (ball > 0 and ball <= 20):
                 ball_data['twenty'] = 'first'
-                self.chart['twenty'][1] += 1
+                self.chart['twentys'][1] += 1
             elif (ball > 20 and ball <= 40):
                 ball_data['twenty'] = 'second'
-                self.chart['twenty'][2] += 1
+                self.chart['twentys'][2] += 1
             elif (ball > 40 and ball <= 60):
                 ball_data['twenty'] = 'third'
-                self.chart['twenty'][3] += 1
+                self.chart['twentys'][3] += 1
             else:
                 ball_data['twenty'] = 'fourth'
-                self.chart['twenty'][4] += 1
+                self.chart['twentys'][4] += 1
 
-            # 5 к-во повторов povtor
-            # Once, Twice, Threce, Fource or More
-            podryad = self.__serializer(ball, 'povtory', 7)
-            obj_podr = {
+            # 5 Number of zrepeated dropping of the ball
+            # 'once', 'twice', 'threce',
+            # 'fource', 'fifce' or 'sixce'
+            in_row = self.__serializer(ball, 'repetitation', 7)
+            obj_in_row = {
                 0: 'once', 1: 'twice', 2: 'threce',
                 3: 'fource', 4: 'fifce', 5: 'sixce'
             }
 
-            ball_data['vypad'] = obj_podr[podryad]
-            if (ball_data['vypad'] != 'once'):
-                self.chart['povtor'][1] += 1
+            ball_data['repeat'] = obj_in_row[in_row]
+            if (ball_data['repeat'] != 'once'):
+                self.chart['repeats'][1] += 1
 
-            # 6 Active, Passive or Neit
+            # 6 Active or passive
             # active  -> [1,1....]
             # passive -> [0,0,0,0,0,0]
-            # neitr   -> other
-            repeat = self.__serializer(ball, 'active', 8)
-            if (repeat[0] == 1 and repeat[1] == 1):
+            # neitral -> other
+            # 'active', 'passive' or 'neit'
+            in_serie = self.__serializer(ball, 'active', 8)
+            if (in_serie[0] == 1 and in_serie[1] == 1):
                 ball_data['active'] = 'active'
-                self.chart['active'][1] += 1
-            elif (sum(repeat) == 0):
+                self.chart['actives'][1] += 1
+            elif (sum(in_serie) == 0):
                 ball_data['active'] = 'passive'
-                self.chart['active'][2] += 1
+                self.chart['actives'][2] += 1
             else:
                 ball_data['active'] = 'neit'
 
-            # 7 Rise or Fall
+            # 7 Rise or fall
             # 4.15 * 6 ~ 25 draws
+            # 'rise', 'fall', 'neit'
             n = round(period[ball] * 6)
             res_map = self.__serializer(ball, 'rise', n)
 
             if (res_map >= 9):
                 ball_data['rise'] = 'rise'
-                self.chart['rise'][1] += 1
+                self.chart['rising'][1] += 1
             if (res_map <= 3):
                 ball_data['rise'] = 'fall'
-                self.chart['rise'][2] += 1
+                self.chart['rising'][2] += 1
             else:
                 ball_data['rise'] = 'neit'
 
+            # 8 Chart -> Tenth for parts.py
+            tenth = int(math.floor((ball - 1) / 10)) + 1
+            self.chart['tenth'][tenth] += 1
+
+            # End: append ball data to the balls list
             balls.append(ball_data)
 
         return balls
@@ -165,13 +180,14 @@ class DropCount(object):
         Returns:
             self.chart @ dict:
             {
-                'hot': [5043, 4, 3],
-                'odd': [5043, 13, 7],
-                'halfs': [5043, 9, 11],
-                'twenty': [5043, 4, 5, 6, 5],
-                'povtor': [5043, 3],
-                'active': [5043, 2, 4],
-                'rise': [5043, 1, 2]
+                hots: [5043, 4, 3],
+                evens: [5043, 13, 7],
+                halves: [5043, 9, 11],
+                twentys: [5043, 4, 5, 6, 5],
+                repeats: [5043, 3],
+                actives: [5043, 2, 4],
+                rising: [5043, 1, 2],
+                tenth: [5043, 2, 3, 4, 1, 3, 2, 1, 4]
             }
         """
         return self.chart
@@ -181,11 +197,11 @@ class DropCount(object):
         Returns:
             @ dict:
             {
-                'summ': [648, 215, 432],
-                'first': [38, 'odd', 'lower'],
-                'last': [43, 'even', 'higher'],
-                'lowest': [1, 'even', 'true'],
-                'bigest': [78, 'odd', 'false']
+                totals: [648, 215, 432],
+                first: [38, 'odd', 'lower'],
+                last: [43, 'even', 'higher'],
+                lowest: [1, 'even', 'true'],
+                bigest: [78, 'odd', 'false']
             }
         """
         draw = self.draw
@@ -213,14 +229,14 @@ class DropCount(object):
         bigest_numb = 'true' if (bigest > 78) else 'false'
 
         return {
-            'summ': [s1, s2, s3],
+            'totals': [s1, s2, s3],
             'first': [first, first_even, first_half],
             'last': [last, last_even, last_half],
             'lowest': [lowest, lowest_even, lowest_numb],
             'bigest': [bigest, bigest_even, bigest_numb]
         }
 
-    #   private_methos
+    # private_methos
     def __serializer(self, ball, tip, n):
         """
         internal function for counting
@@ -234,7 +250,7 @@ class DropCount(object):
                 series.append(1)
             else:
                 series.append(0)
-        if tip == 'povtory':
+        if tip == 'repetitation':
             return sum(series)
         elif tip == 'active':
             return series

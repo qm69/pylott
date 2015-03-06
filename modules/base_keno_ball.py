@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-def ball_counter(draws):
+def ball_counter(draws, tirag):
     """
     Arguments:
         draws @ list >> list >> int:
@@ -11,14 +11,14 @@ def ball_counter(draws):
     Returns:
         resp_list @ list: len == 80 >> dict:
         {
-            'ball': 34,
-            'drop': 1190,
-            'period': 3.97,
-            'miss': 1,
-            'silent': 12,
-            'max_pass': 28,
-            'max_inrow': 9,
-            series: [
+            draw: 5030,
+            ball: 34,
+            drop: 1190,
+            span 3.97,
+            miss: 7,
+            mrow: 6,
+            mpas: 31,
+            tier: [
                 [347, 123, 67, 45, 23, 12, 6, 3, 1],
                 [443, 117, 69, 51, 31, 15, 9, 6, 3, 1],
             ]
@@ -37,19 +37,18 @@ def ball_counter(draws):
 
     for ball in list(range(1, 81)):
 
-        # выпадения и длина серии
-        [drop, length] = [0, 0]
+        [dropped, length] = [0, 0]
 
-        # серия выпадения и серия пропуска
+        # series of inrows and passes
         [ser_inrow, ser_pass] = [[0] * 40, [0] * 40]
 
-        # первое направления вектора для серии
+        # initialization of vector
         vect = 1 if (ball in draws[0]) else -1
 
         # iterate ball thru draws
         for draw in draws:
             if ball in draw:
-                drop += 1
+                dropped += 1
                 if vect < 0:
                     ser_pass[length] += 1
                     length = 0
@@ -63,17 +62,25 @@ def ball_counter(draws):
                     vect = -1
                 else:
                     length += 1
-        period = len(draws) / drop
+
+        missing = 0
+        for draw in draws:
+            if ball not in draw:
+                missing += 1
+            else:
+                break
+
+        period = len(draws) / dropped
 
         resp_list.append(dict(
+            draw=tirag,
             ball=ball,
-            drop=drop,
-            period=period,
-            miss=0,
-            silent=0,
-            max_inrow=len(ser_inrow),
-            max_pass=len(ser_pass),
-            series=[
+            drop=dropped,
+            span=period,
+            miss=missing,
+            mrow=len(ser_inrow),
+            mpas=len(ser_pass),
+            tier=[
                 pop_zeros(ser_inrow),
                 pop_zeros(ser_pass)
             ]

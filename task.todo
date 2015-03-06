@@ -2,13 +2,21 @@ modules/base_keno_draw.py:
  ✔ anotate 'get_balls' and describe interface @done (15-02-28 20:25)
  ✔ anotate 'get_charts' and describe interface @done (15-02-28 20:09)
  ✔ anotate 'get_odds' and describe interface @done (15-02-28 20:17)
+ ✔ 'get_charts' add field 'tenth' 'keno_tenth.py' @done (15-03-04 20:15)
+ ✔ get off cyrilic notashion @done (15-03-04 20:16)
+ ✔ rethink dict() key names @done (15-03-04 21:01)
+ ✔ rewrite tests @done (15-03-06 20:50)
 
 modules/base_keno_ball.py:
- ☐ cont 'miss': последний пропуск
- ☐ count 'silent': предпоследний пропуск + 1 ?
+ ✔ cont 'miss': последний пропуск @done (15-03-04 22:35)
+ ☐ count 'silent': предпоследний пропуск + 1 (зачем)
+ ✔ заменить drop на dropped @done (15-03-06 20:49)
+ ✔  rethink dict() key names @done (15-03-04 22:29)
+ ✔ get off cyrilic notashion @done (15-03-06 20:50)
+ ✔ rewrite tests @done (15-03-06 20:45)
 
 modules/base_keno_tenth.py:
- ☐ 
+ ✔ rethink dict() key names @done (15-03-04 23:08)
 
 
 

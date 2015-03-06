@@ -11,24 +11,13 @@ sys.path.append('/home/qm69/code/python/lottery')
 from pylott.modules.base_keno_ball import ball_counter
 from pylott.results.keno_list_1000 import draw_list
 
-"""
-@pytest.fixture(scope="module")
-@pytest.fixture(scope="session")
-@pytest.fixture(scope="function")
-@pytest.fixture(params=["mod1", "mod2"])
-"""
-
 
 @pytest.fixture(scope="module")
 def bc():  # ball_counter == bc
-    return ball_counter(draw_list)
+    return ball_counter(draw_list, 5053)
 
 
 class TestClass:
-
-    @classmethod
-    def setup_class(cls):
-        pass
 
     def test_ball_counter(self, bc):
 
@@ -39,6 +28,7 @@ class TestClass:
         # test each ball from list
         for ball in bc:
             assert type(ball) is dict
+            assert len(ball) == 8
 
             # ball
             assert type(ball['ball']) is int
@@ -49,29 +39,25 @@ class TestClass:
             assert ball['drop'] > 0
 
             # period
-            assert type(ball['period']) is float
-            assert ball['period'] < 5 and ball['period'] > 3
+            assert type(ball['span']) is float
+            assert ball['span'] < 5 and ball['span'] > 3
 
             # miss
             assert type(ball['miss']) is int
             assert ball['miss'] >= 0
 
-            # silent
-            assert type(ball['silent']) is int
-            assert ball['silent'] >= 0
-
             # max_inrow
-            assert type(ball['max_inrow']) is int
-            assert ball['max_inrow'] >= 0
+            assert type(ball['mrow']) is int
+            assert ball['mrow'] >= 0
 
             # max_pass
-            assert type(ball['max_pass']) is int
-            assert ball['max_pass'] >= 0
+            assert type(ball['mpas']) is int
+            assert ball['mpas'] >= 0
 
             # series
-            assert type(ball['series']) is list
-            assert len(ball['series']) == 2
+            assert type(ball['tier']) is list
+            assert len(ball['tier']) == 2
 
             # test for zeros at the end of each list
-            assert ball['series'][0][-1] != 0
-            assert ball['series'][0][-1] != 0
+            assert ball['tier'][0][-1] != 0
+            assert ball['tier'][0][-1] != 0

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# $ py.test -v test_base_keno_draw.py
+# $ py.test -v [--maxfail=1] test_base_keno_drop.py
 
 import sys
 import pytest
@@ -11,12 +11,13 @@ sys.path.append('/home/qm69/code/python/lottery')
 from pylott.modules.base_keno_drop import DropCount
 from pylott.results.keno_list_1000 import draw_list
 
-"""
-@pytest.fixture(scope="module")
-@pytest.fixture(scope="session")
-@pytest.fixture(scope="function")
-@pytest.fixture(params=["mod1", "mod2"])
-"""
+get_balls = pytest.mark.get_balls
+get_charts = pytest.mark.get_charts
+get_odds = pytest.mark.get_odds
+
+# $ py.test -v -m get_balls
+# $ py.test -v -m "not get_odds"
+# $ py.test -v -m "get_balls or get_charts"
 
 
 @pytest.fixture(scope="module")
@@ -26,10 +27,7 @@ def dc():
 
 class TestClass:
 
-    @classmethod
-    def setup_class(cls):
-        pass
-
+    @get_balls
     def test_drop_get_balls(self, dc):
         resp = dc.get_balls()
 
@@ -40,12 +38,13 @@ class TestClass:
         # test each ball from list
         for ball in resp:
             assert type(ball) is dict
+            assert len(ball) == 9
 
             # 1 Hot or Cold
             assert ball['hot'] in ['hot', 'cold', 'neit']
 
             # 2 Odd or Even
-            assert ball['odd'] in ['odd', 'even']
+            assert ball['even'] in ['odd', 'even']
 
             # 3 More or Less
             assert ball['half'] in ['first', 'last']
@@ -56,7 +55,7 @@ class TestClass:
 
             # 5 Once, Twice, Threce, Fource or More
             rep_val = ['once', 'twice', 'threce', 'fource', 'fifce', 'sixce']
-            assert ball['vypad'] in rep_val
+            assert ball['repeat'] in rep_val
 
             # 6 Active, Passive or Neit
             assert ball['active'] in ['active', 'passive', 'neit']
@@ -64,39 +63,45 @@ class TestClass:
             # 7 Rise or Fall
             assert ball['rise'] in ['rise', 'fall', 'neit']
 
+    @get_charts
     def test_drop_get_charts(self, dc):
         resp = dc.get_charts()
 
-        # 'odd'
-        assert sum(resp['odd'][1:]) == 20
+        assert type(resp) is dict
+        assert len(resp) == 8
 
-        # 'halfs'
-        assert sum(resp['halfs'][1:]) == 20
+        # evens
+        assert sum(resp['evens'][1:]) == 20
 
-        # 'twenty'
-        assert sum(resp['twenty'][1:]) == 20
+        # halves
+        assert sum(resp['halves'][1:]) == 20
 
-        # 'hot', 'povtor', 'active', 'rise'
+        # twentys
+        assert sum(resp['twentys'][1:]) == 20
 
+        # tenth
+        assert sum(resp['tenth'][1:]) == 20
+
+    @get_odds
     def test_drop_get_odds(self, dc):
         resp = dc.get_odds()
 
-        # summ of second half < 610
-        assert type(resp['summ'][0]) is int
-        assert resp['summ'][0] > 0
-        assert resp['summ'][0] <= 610
+        # totals of second half < 610
+        assert type(resp['totals'][0]) is int
+        assert resp['totals'][0] > 0
+        assert resp['totals'][0] <= 610
 
-        # summ of second half < 1331
-        assert type(resp['summ'][1]) is int
-        assert resp['summ'][1] > 0
-        assert resp['summ'][1] <= 1331
+        # totals of second half < 1331
+        assert type(resp['totals'][1]) is int
+        assert resp['totals'][1] > 0
+        assert resp['totals'][1] <= 1331
 
-        # summ of first and second halfs == total summ
-        summ = resp['summ'][0] + resp['summ'][1]
-        assert summ == resp['summ'][2]
+        # totals of first and second halfs == total totals
+        totals = resp['totals'][0] + resp['totals'][1]
+        assert totals == resp['totals'][2]
 
         for k, v in resp.items():
-            if (k != 'summ'):
+            if (k != 'totals'):
                 assert v[0] > 0
                 assert v[0] < 81
                 assert v[1] != ''
