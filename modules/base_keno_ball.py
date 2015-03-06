@@ -42,7 +42,7 @@ def ball_counter(draws, tirag):
         # series of inrows and passes
         [ser_inrow, ser_pass] = [[0] * 40, [0] * 40]
 
-        # initialization of vector
+        # initialization of vecto
         vect = 1 if (ball in draws[0]) else -1
 
         # iterate ball thru draws
