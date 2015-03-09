@@ -2,18 +2,38 @@
 # -*- coding: utf-8 -*-
 
 from pymongo import MongoClient
-from libs.base_keno_draw import DrawCount
+from modules.base_keno_drop import DropCount
+from modules.base_keno_ball import ball_counter
+from modules.base_keno_part import part_counter
 
 client = MongoClient('localhost', 27017)
 
 db = client['lottmean-dev']
-mon_draws = db['kenos']
+mong_draw = db['draws']
+mong_drop = db['drops']
+mong_ball = db['balls']
+mong_part = db['parts']
 
-text_arr = open('results/keno_5053.csv', 'r').read().split('\n')
+text_arr = open('results/keno_last.csv', 'r').read().split('\n')
 
-# make this of lists
-# ['5033', '2015-01-20', 'A', '2', '23, ... 35'],
+# ['5033', '2015-01-20', 'A', '2', '23, .., 35'],
 res_arr = [draw.split(';') for draw in text_arr]
+
+# [ ... [23, 20, 11, .., 49, 9, 32], ... ]
+ball_list = [[int(x) for x in res[4].split(',')] for res in res_arr]
+
+""" ball stats counting """
+bc = ball_counter(ball_list, res_arr[0][0])
+for b in bc:
+    resp = mong_ball.insert(b)
+    print(resp)
+
+
+""" part stats counting """
+pc = part_counter(ball_list, res_arr[0][0])
+for p in pc:
+    resp = mong_part.insert(p)
+    print(resp)
 
 for i, res_draw in enumerate(res_arr):
 
@@ -31,15 +51,11 @@ for i, res_draw in enumerate(res_arr):
             results=res_balls
         )
 
-        # create an array of integer ball resalts
-        func = lambda x: [int(ball, 10) for ball in x[4].split(',')]
-        int_arr = list(map(func, res_arr[i:30]))
+        init_cntr = DropCount(ball_list[i:30], int(res_arr[0][0]))
 
-        init_cntr = DrawCount(int_arr, count_draw['draw'])
+        count_draw['balls'] = init_cntr.get_balls()
+        count_draw['test_ball'] = init_cntr.get_charts()
+        count_draw['totals'] = init_cntr.get_odds()
 
-        count_draw['balls'] = init_cntr.ball_counter()
-        count_draw['chart'] = init_cntr.get_chart()
-        count_draw['bookies'] = init_cntr.booker()
-
-        res = mon_draws.insert(count_draw)
+        res = mong_drop.insert(count_draw)
         print(res)

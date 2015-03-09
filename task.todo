@@ -24,7 +24,7 @@ modules/base_keno_tenth.py:
  ✔ check 'float' for length @done (15-03-09 15:30)
  ☐ count 'percents'
  ☐ write tests for 'part["pcen"]'
- ☐ commit -m "base keno part"
- ☐ push to github
+ ✔ git commit -m "base keno part" @done (15-03-09 15:32)
+ ✔ push to github @done (15-03-09 15:32)
 
 base_main.py:

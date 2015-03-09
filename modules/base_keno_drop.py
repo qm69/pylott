@@ -205,6 +205,7 @@ class DropCount(object):
             }
         """
         draw = self.draw
+
         # add css classes for summ lower or bigger for coloring
         s1 = sum(list(filter(lambda x: x < 41, draw)))
         s2 = sum(list(filter(lambda x: x > 40, draw)))
