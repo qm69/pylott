@@ -17,6 +17,14 @@ modules/base_keno_ball.py:
 
 modules/base_keno_tenth.py:
  ✔ rethink dict() key names @done (15-03-04 23:08)
+ ✔ count max silences for in 'SimplyKeno' @done (15-03-09 13:44)
+ ✔ write tests for 'part["mute"]' with max values @done (15-03-09 13:52)
+ ✔ repair 'max_mass' @done (15-03-09 15:12)
+ ✔ write tests for 'part["mpas"]' @done (15-03-09 15:18)
+ ✔ check 'float' for length @done (15-03-09 15:30)
+ ☐ count 'percents'
+ ☐ write tests for 'part["pcen"]'
+ ☐ commit -m "base keno part"
+ ☐ push to github
 
-
-
+base_main.py:

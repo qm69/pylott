@@ -11,23 +11,21 @@ def part_counter(draws, tirag):
     Returns:
         resp_list @ list: len == (8 * 9) == 72 >> dict:
         {
-            part: '1-10',
-            bulk: 3,    # [1 .. 9]
-            drop: 420,
-            pcen: 30.1, # percent
-            era: 3.3,   # period
-            pera: [
-                1,      # drop per 1 per
-                2,      # drop per 3 per
-                2       # drop per 5 per
-            ],          # per_pera
-            mpas: 33,   # max_pass
-            mute: 0,    # silent
-            rate: 2.6,  # ratio
+            draw: 5034,      # int
+            part: '41-50',   # str
+            bulk: 0,         # int
+            drop: 55,        # int
+            era: 18.8,      # float
+            mute: 18,        # int
+            pera: [0, 3, 5], # list >> int,
+            rate: 0.6        # float
+            mpas: 91,        # int
+            pcen: ???        # int
         }
     """
-    counted_parts = []
 
+    # THEN data about the periods of part
+    # TAKE from the db.keno.parts
     part_bulk = {
         '01-10': {
             'first': 1, 'last': 10,
@@ -63,80 +61,77 @@ def part_counter(draws, tirag):
         }
     }
 
-    # internal funcion
-    def part_creater(part, amount):
-        return dict(
-            part=part,
-            bulk=amount,
-            drop=0,
-            pcen=0.0,
-            era=0.0,
-            pera=[1, 2, 2],
-            mpas=0,
-            mute=0,
-            rate=0.0
-        )
+    counted_parts = []
 
     # '11-20' ... '71-80'
     for part in [p for p in part_bulk]:
         # 0 ... 8
         for amount in list(range(0, 9)):
 
-            asdf = part_creater(part, amount)
+            # series of inrows and passes
+            [dropped, length, max_pass, dropped] = [0, 0, 0, 0]
+            [f, l] = [part_bulk[part]['first'], part_bulk[part]['last']]
+
+            # initialization of first vector
+            vec_shtuk = len([d for d in draws[0] if d >= f and d <= l])
+            vect = 1 if (amount == vec_shtuk) else -1
 
             # dropped & max_pass
             for draw in draws:
-                f = part_bulk[part]['first']
-                l = part_bulk[part]['last']
+                # counts the number of balls
                 shtuk = len([d for d in draw if d >= f and d <= l])
 
-                # summ dropped
+                # iterate for max silent
                 if amount == shtuk:
-                    asdf['drop'] += 1
 
-                # last silent
-                while (shtuk != amount):
-                    asdf['silent'] += 1
+                    # summ dropped
+                    dropped += 1
 
-                # max_pass
-                [max_pass, ser_len] = [0, 0]
-                vector = 1 if (shtuk == amount) else -1
-
-                if shtuk == amount:
-                    if vector < 0:
-                        if ser_len > max_pass:
-                            max_pass = ser_len
-                        ser_len = 0
-                        vector = 1
+                    if vect < 0:
+                        if max_pass < length:
+                            max_pass = length
+                        length = 0
+                        vect = 1
                     else:
-                        ser_len += 1
+                        length += 1
                 else:
-                    if vector > 0:
-                        ser_len = 0
-                        vector = -1
+                    if vect > 0:
+                        length = 0
+                        vect = -1
                     else:
-                        ser_len += 1
+                        length += 1
 
-            """ get data of period and insert it in
+            silence = 0
+            for draw in draws:
+                shtuk = len([d for d in draw if d >= f and d <= l])
+                if shtuk != amount:
+                    silence += 1
+                else:
+                    break
 
-            # per_per
-            per_arr = [
-                asdf['period'],
-                asdf['period'] * 3,
-                asdf['period'] * 5
-            ]
-            for i, perddd in enumerate(per_arr):
-                for draw in draws:
-                    len([d for d in draw if d >= part[1] and d <= part[2]])
+            max_pass = max_pass if (max_pass != 0) else silence
+            period = round((1000 / dropped), 1) if dropped > 0 else 0.0
+            ratio = round(silence / period, 1) if period > 0 else 0.0
+
+            # mult period on 1,3,5 and then round like [21, 64, 107]
+            per_arr = [round(period * p) for p in [1, 3, 5]]
+            per_per = [0, 0, 0]
+            for i, per in enumerate(per_arr):
+                for draw in draws[:per]:
+                    shtuk = len([d for d in draw if d >= f and d <= l])
                     if amount == shtuk:
-                        asdf['per_per'][i-1] += 1
-            """
+                        per_per[i] += 1
 
-            # count percent, period, ratio
-            asdf['percent'] = asdf['drop'] / tirag  # и округлить до 2й цифры
-            asdf['period'] = tirag / asdf['drop']  # и округлить до 2й цифры
-            asdf['ratio'] = asdf['silent'] / asdf['period']  # окр до 2й цифры
-
-            counted_parts.append(asdf)
+            counted_parts.append(dict(
+                draw=tirag,
+                part=part,
+                bulk=amount,
+                drop=dropped,
+                era=period,
+                mute=silence,
+                pera=per_per,
+                rate=ratio,
+                mpas=max_pass
+            ))
 
     return counted_parts
