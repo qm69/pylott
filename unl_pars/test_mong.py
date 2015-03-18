@@ -18,25 +18,22 @@ def keno_draw(cont_draw):
     Проверить наличие тиража в базе
     """
     try:
-        temp = db.kenos.find_one(
-            {"draw": cont_draw["draw"]},
-            {"comp": cont_draw["comp"]}
+        temp = db.kenos.aggregate(
+            {'draw': 5089}
         )
         # that return None if Exception
-        return True if temp else False
+        return temp if temp else False
     except Exception:
         raise Exception("'keno_draw' что-то не так")
-
-
-def keno_save(draw_data):
-    """
-    Сохранить в базу
-    """
-    try:
-        resp = db.kenos.save(draw_data)
-        return db.kenos.find_one({"_id": resp})
-    except Exception:
-        raise Exception("'save_keno' что-то не так")
-
-if __name__ == "__main__":
-    pass
+qwer = {
+    'draw': 5090,
+    'comp': 'unl',
+    'date': 'qwdeqweqwe'
+}
+"""
+{'_id': ObjectId('5509cb2eedce301277c7b9b6'), 'date': '17.03.2015',
+'draw': 5089, 'comp': 'unl', 'game': 'keno',
+'rslt': [53, 4, 61, 18, 74, 30, 49, 57, 13,], 'tron': ['5089', '2015-03-17']}
+"""
+rest = keno_draw(qwer)
+print(rest)
