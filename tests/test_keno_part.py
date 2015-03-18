@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# $ py.test -v -s test_base_keno_part.py
+# $ py.test -v -s test_keno_part.py
 
 import sys
 import pytest
@@ -8,7 +8,7 @@ import pytest
 # http://stackoverflow.com/questions/714063/
 sys.path.append('/home/qm69/code/python/lottery')
 
-from pylott.modules.base_keno_part import part_counter
+from pylott.modules.keno_part import part_counter
 from pylott.results.keno_list_1000 import draw_list
 
 

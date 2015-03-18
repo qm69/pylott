@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from pymongo import MongoClient
-from modules.base_keno_drop import DropCount
-from modules.base_keno_ball import ball_counter
-from modules.base_keno_part import part_counter
+from modules.keno_drop import DropCount
+from modules.keno_ball import ball_counter
+from modules.keno_part import part_counter
 
 client = MongoClient('localhost', 27017)
 
@@ -22,23 +22,8 @@ res_arr = [draw.split(';') for draw in text_arr]
 # [ ... [23, 20, 11, .., 49, 9, 32], ... ]
 ball_list = [[int(x) for x in res[4].split(',')] for res in res_arr]
 
-""" ball stats counting """
-bc = ball_counter(ball_list, res_arr[0][0])
-for b in bc:
-    resp = mong_ball.insert(b)
-    print(resp)
-
-
-""" part stats counting """
-pc = part_counter(ball_list, res_arr[0][0])
-for p in pc:
-    resp = mong_part.insert(p)
-    print(resp)
-
 for i, res_draw in enumerate(res_arr):
-
     if i < 10:
-
         # Split and reverce DATA value
         date_arry = reversed(res_draw[1].split('-'))
         res_balls = res_draw[4].split(',')
@@ -59,3 +44,16 @@ for i, res_draw in enumerate(res_arr):
 
         res = mong_drop.insert(count_draw)
         print(res)
+
+""" ball stats counting """
+bc = ball_counter(ball_list, res_arr[0][0])
+for b in bc:
+    resp = mong_ball.insert(b)
+    print(resp)
+
+
+""" part stats counting """
+pc = part_counter(ball_list, res_arr[0][0])
+for p in pc:
+    resp = mong_part.insert(p)
+    print(resp)
