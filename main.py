@@ -5,11 +5,11 @@
 Main file.
 
 Usage:
-    main.py <comp> <game> today
+    main.py <comp> <game> csv-to-mongo
     main.py <comp> <game> drops (-l=<last> | -d=<draw>)
     main.py <comp> <game> balls (-l=<last> | -d=<draw>)
     main.py <comp> <game> tenth (-l=<last> | -d=<draw>)
-    main.py <comp> <game> file-to-mongo <last>
+    main.py <comp> <game> today
     main.py -h | --help
     main.py -v | --version
 
@@ -31,50 +31,49 @@ from modules.db import keno_draw, save_keno
 
 args = docopt(__doc__, version='0.1.7')
 
-
-# print(args['<comp>'], args['<game>'])
-# for arg in args:
-#   print(arg, args[arg])
-
 if args['<comp>'] == "unl":
     if args['<game>'] == "keno":
-        if args['file-to-mongo']:
-            """ Keno data modules
+        if args['csv-to-mongo']:
+            """ Keno data model
             comp = 'unl'
             draw = 5943
             date = '12.03.15,
             tron = ['A', '4']
             rslt = [79, 61, 65, ... , 60, 52, 41]
             """
-            text_arr = open('results/keno_last.csv', 'r').read().split('\n')
+            line_data_list = open('results/keno.csv', 'r').read().split('\n')
 
-            for i, rslt_draw in enumerate(text_arr):
-                if i < int(args['<last>']):
+            for line_data in line_data_list:
 
-                    # Split and reverce DATA value
-                    data = rslt_draw.split(';')
-
-                    draw_numb = int(data[0], 10)
-                    draw_ball = [int(x) for x in data[4].split(',')]
-                    rewerdate = reversed(data[1].split('-'))
-                    draw_date = '{}.{}.{}'.format(*rewerdate)
-                    tron_list = [data[2], data[3]]
-                    cont_draw = dict(
-                        comp='unl',
-                        game='keno',
-                        draw=draw_numb,
-                        date=draw_date,
-                        tron=tron_list,
-                        rslt=draw_ball
-                    )
-                    if keno_draw("unl", draw_numb):
-                        resp = save_keno(cont_draw)
-                        print(resp)
-                    else:
-                        print('Тираж {} в базе'.format(draw_numb))
+                #   ['5018', '2015-01-05', 'B', '2', [61, 8, ... 1, 65]
+                draw_data = [
+                    [int(n) for n in r.split(",")]
+                    if len(r) > 11 else r
+                    for r in line_data.split(";")
+                ]
+                draw_numb = int(draw_data[0], 10)
+                draw_date = '{}.{}.{}'.format(
+                    *(reversed(draw_data[1].split('-')))
+                )
+                draw_tron = (draw_data[2], draw_data[3])
+                draw_ball = draw_data[4]
+                cont_draw = dict(
+                    comp='unl',
+                    game='keno',
+                    draw=draw_numb,
+                    date=draw_date,
+                    tron=draw_tron,
+                    rslt=draw_ball
+                )
+                print(draw_numb)
+                #   if draw number in base
+                if keno_draw(cont_draw) is not True:
+                    resp = save_keno(cont_draw)
+                    print('{} saved'.format(resp))
                 else:
-                    print('Well done!')
-                    break
+                    print('Тираж {} в базе'.format(draw_numb))
+
+            print('Well done!')
 
         # unl keno last ...
         elif args['last']:

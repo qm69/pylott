@@ -1,5 +1,5 @@
 modules/base_keno_draw.py:
- ✔ anotate 'get_balls' and describe interface @done (15-02-28 20:25)
+ ✔ get_balls' and describe interface @done (15-03-18 19:42)
  ✔ anotate 'get_charts' and describe interface @done (15-02-28 20:09)
  ✔ anotate 'get_odds' and describe interface @done (15-02-28 20:17)
  ✔ 'get_charts' add field 'tenth' 'keno_tenth.py' @done (15-03-04 20:15)
@@ -27,4 +27,5 @@ modules/base_keno_tenth.py:
  ✔ git commit -m "base keno part" @done (15-03-09 15:32)
  ✔ push to github @done (15-03-09 15:32)
 
-base_main.py:
+main.py:
+ ☐ 
