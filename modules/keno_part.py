@@ -6,7 +6,7 @@ def part_counter(draws, tirag):
     """
     Arguments:
         draws @ list >> list >> int:
-            [64,48,79,70,40, ... 13,76,72,26,65],
+        ['5018', '2015-01-05', 'B', '2', [61, 8, ... 1, 65]
 
     Returns:
         resp_list @ list: len == (8 * 9) == 72 >> dict:
@@ -15,7 +15,7 @@ def part_counter(draws, tirag):
             part: '41-50',   # str
             bulk: 0,         # int
             drop: 55,        # int
-            era: 18.8,      # float
+            era: 18.8,       # float
             mute: 18,        # int
             pera: [0, 3, 5], # list >> int,
             rate: 0.6        # float
@@ -73,13 +73,13 @@ def part_counter(draws, tirag):
             [f, l] = [part_bulk[part]['first'], part_bulk[part]['last']]
 
             # initialization of first vector
-            vec_shtuk = len([d for d in draws[0] if d >= f and d <= l])
+            vec_shtuk = len([d for d in draws[0][4] if d >= f and d <= l])
             vect = 1 if (amount == vec_shtuk) else -1
 
             # dropped & max_pass
             for draw in draws:
                 # counts the number of balls
-                shtuk = len([d for d in draw if d >= f and d <= l])
+                shtuk = len([d for d in draw[4] if d >= f and d <= l])
 
                 # iterate for max silent
                 if amount == shtuk:
@@ -103,7 +103,7 @@ def part_counter(draws, tirag):
 
             silence = 0
             for draw in draws:
-                shtuk = len([d for d in draw if d >= f and d <= l])
+                shtuk = len([d for d in draw[4] if d >= f and d <= l])
                 if shtuk != amount:
                     silence += 1
                 else:
@@ -118,7 +118,7 @@ def part_counter(draws, tirag):
             per_per = [0, 0, 0]
             for i, per in enumerate(per_arr):
                 for draw in draws[:per]:
-                    shtuk = len([d for d in draw if d >= f and d <= l])
+                    shtuk = len([d for d in draw[4] if d >= f and d <= l])
                     if amount == shtuk:
                         per_per[i] += 1
 

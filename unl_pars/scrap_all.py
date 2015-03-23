@@ -37,7 +37,7 @@ lot3_list = [lot3_data['n' + str(ran)] for ran in [1, 2, 3]]
 print('{}.{}.{} {} {}-{} {} {}{}{}'.format(
     keno_data["day"], keno_data["month"], keno_data["year"],
     keno_data["draw"], keno_data["lototron"], keno_data["ballset"],
-    keno_list[0:19:18], "\n", sorted(keno_list), "\n"))
+    keno_list, "\n", sorted(keno_list), "\n"))
 
 print('{}.{}.{} {} {}-{} {}'.format(
     lot3_data["day"], lot3_data["month"], lot3_data["year"],

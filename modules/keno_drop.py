@@ -5,23 +5,23 @@ import math
 
 
 class DropCount(object):
-    """ This is my first class written @ Python 3.4
-
-    Arguments:
-
-        draws @ list: len == 30 >> list >> int; like:
-        [...
-            [64,48,79,70,40,69,20,59,66,61,80,53,78,57,28,13,76,72,26,65],
-        ...]
-
-        tirag @ int: number of draw
+    """
+    This is my first class written @ Python 3.4
     """
     def __init__(self, draws, tirag):
         """
-        Explanation of initialization
+        Arguments:
+
+            draws @ list: len == 30 >> list >> int; like:
+            [...
+                ['5018', '2015-01-05', 'B', '2', [64, 48, .. , 26, 65],
+            ...]
+
+            tirag @ int: number of draw
         """
-        self.draws = draws
-        self.draw = draws[0]
+        # потом создать ndarray
+        self.draws = [d[4] for d in draws]
+        self.draw = draws[0][4]
         self.chart = {
             'hots': [tirag, 0, 0],
             'evens': [tirag, 0, 0],

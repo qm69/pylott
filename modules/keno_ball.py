@@ -6,7 +6,7 @@ def ball_counter(draws, tirag):
     """
     Arguments:
         draws @ list >> list >> int:
-            [64,48,79,70,40, ... 13,76,72,26,65],
+        ['5018', '2015-01-05', 'B', '2', [61, 8, ... 1, 65]
 
     Returns:
         resp_list @ list: len == 80 >> dict:
@@ -43,11 +43,12 @@ def ball_counter(draws, tirag):
         [ser_inrow, ser_pass] = [[0] * 40, [0] * 40]
 
         # initialization of vecto
-        vect = 1 if (ball in draws[0]) else -1
+        vect = 1 if (ball in draws[0][4]) else -1
 
         # iterate ball thru draws
         for draw in draws:
-            if ball in draw:
+            print(ball, draw[4])
+            if ball in draw[4]:
                 dropped += 1
                 if vect < 0:
                     ser_pass[length] += 1
@@ -65,7 +66,7 @@ def ball_counter(draws, tirag):
 
         missing = 0
         for draw in draws:
-            if ball not in draw:
+            if ball not in draw[4]:
                 missing += 1
             else:
                 break
