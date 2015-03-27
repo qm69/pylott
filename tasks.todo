@@ -1,7 +1,6 @@
-modules/base_keno_draw.py:
- ☐ do smth
+modules/base_keno_drops.py:
 
-modules/base_keno_ball.py:
+modules/base_keno_balls.py:
  ☐ count 'silent': предпоследний пропуск + 1 (зачем)
 
 modules/base_keno_tenth.py:
@@ -9,4 +8,5 @@ modules/base_keno_tenth.py:
  ☐ write tests for 'part["pcen"]'
 
 main.py:
- ☐ do smth
+ ☐ unl > keno > balls-tenth
+ ☐ unl > keno > get-draw

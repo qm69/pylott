@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# import pymongo
 # import bson
 import json
 from pymongo import MongoClient
+# для поиска по _id
 # from bson.objectid import ObjectId
 # from pymongo import Connection
 
 client = MongoClient("localhost", 27017)
 
 db = client["pylott-dev"]
-mong_keno = db["keno"]
+# mong_keno = db["keno"]
 
 
-def keno_fone(draw, comp):
+def keno_find(comp, draw):
     """
     Проверить наличие тиража в базе
     """
@@ -43,7 +43,7 @@ def keno_updt(numb, comp, type, data):
     http://api.mongodb.org/python/2.6.3/
     api/pymongo/collection.html
     """
-    print(json.dumps(data))
+    # print(json.dumps(data))
     try:
         return db.kenos.find_and_modify(
             query={"draw": numb, "comp": comp},
