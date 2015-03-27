@@ -28,6 +28,20 @@ def keno_find(comp, draw):
         raise Exception("'keno_draw' что-то не так")
 
 
+def keno_last(comp):
+    """
+    Достать последний тираж
+    """
+    try:
+        # Document or None
+        return db.kenos.find_one({
+            '$query': {'comp': comp},
+            '$orderby': {"draw": -1}
+        })
+    except Exception:
+        raise Exception("'keno_last' что-то не так")
+
+
 def keno_save(draw_dict):
     """
     Сохранить в базу
