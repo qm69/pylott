@@ -129,7 +129,8 @@ class DropCount(object):
             in_row = self.__serializer(ball, 'repetitation', 7)
             obj_in_row = {
                 0: 'once', 1: 'twice', 2: 'threce',
-                3: 'fource', 4: 'fifce', 5: 'sixce'
+                3: 'fource', 4: 'fifce', 5: 'sixce',
+                6: 'sevence'
             }
 
             ball_data['repeat'] = obj_in_row[in_row]

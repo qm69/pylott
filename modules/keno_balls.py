@@ -47,7 +47,6 @@ def ball_counter(draws, tirag):
 
         # iterate ball thru draws
         for draw in draws:
-            print(ball, draw[4])
             if ball in draw[4]:
                 dropped += 1
                 if vect < 0:

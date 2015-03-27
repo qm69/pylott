@@ -6,8 +6,7 @@ Main file.
 
 Usage:
     main.py <comp> <game> file-mongo
-    main.py <comp> <game> drops [<last>]
-    main.py <comp> <game> last
+    main.py <comp> <game> get-last
     main.py -h | --help
     main.py -v | --version
 
@@ -15,8 +14,6 @@ Options:
     <comp>          Company: "unl", "stoloto".
     <game>          Gamen name: "keno", "5x49".
     file-mongo
-    drops
-    <last>          Emount of last draws.
     balls-parts
     -h --help       Show this screen.
     -v --version    Show version.
@@ -26,14 +23,14 @@ Options:
 from docopt import docopt
 from termcolor import cprint
 from datetime import datetime
-from modules.mongo import keno_find, keno_save, keno_updt, keno_last
+from modules.mongo import keno_find, keno_save, keno_last
 from modules.keno_drops import DropCount
 from modules.keno_balls import ball_counter
 from modules.keno_tenth import part_counter
 from modules.unl_getter import get_keno
 
 # 1 game, 3 methods
-args = docopt(__doc__, version='0.1.3')
+args = docopt(__doc__, version='0.1.2')
 
 """
 for arg in args:
@@ -46,9 +43,9 @@ if args['<comp>'] == "unl":
     ============================="""
     if args['<game>'] == "keno":
 
-        ##########################
-        # unl > keno > csv-to-db #
-        ##########################
+        ###########################
+        # unl > keno > file-mongo #
+        ###########################
         if args['file-mongo']:
             """ Keno data model
             comp = 'unl'
@@ -57,48 +54,6 @@ if args['<comp>'] == "unl":
             tron = ['A', '4']
             rslt = [79, 61, 65, ... , 60, 52, 41]
             """
-            with open('results/keno.csv', 'r') as keno_file:
-
-                for line_data in keno_file.read().split('\n'):
-
-                    # ['5018', '2015-01-05', 'B', '2', [61, 8, ... 1, 65]
-                    draw_data = [
-                        [int(n) for n in r.split(",")]
-                        if len(r) > 11 else r
-                        for r in line_data.split(";")
-                    ]
-                    draw_numb = int(draw_data[0], 10)
-
-                    # return Document or None
-                    if keno_find('unl', draw_numb) is None:
-                        draw_date = '{}.{}.{}'.format(
-                            *(reversed(draw_data[1].split('-')))
-                        )
-                        draw_tron = (draw_data[2], draw_data[3])
-                        draw_ball = draw_data[4]
-                        cont_draw = dict(
-                            comp='unl',
-                            game='keno',
-                            draw=draw_numb,
-                            date=draw_date,
-                            tron=draw_tron,
-                            rslt=draw_ball
-                        )
-                        resp = keno_save(cont_draw)
-                        cprint(
-                            'unl > keno > draw: {} > saved with _id:{}'
-                            .format(draw_numb, resp), 'green')
-                    else:
-                        cprint(
-                            'unl > keno > draw: {} > exist'
-                            .format(draw_numb), 'red')
-                cprint("File 'keno.csv' successfully poured into DB", 'cyan')
-
-        #######################
-        # unl > keno > drops: #
-        #######################
-        elif args['drops']:
-
             with open('results/keno.csv', 'r') as keno_file:
                 # create a list of lists like
                 # ['5018', '2015-01-05', 'B', '2', [61, 8, ... 1, 65]
@@ -109,47 +64,54 @@ if args['<comp>'] == "unl":
                     ]
                     for res in keno_file.read().split('\n')
                 ]
-
-                # args['<last>'] = None || '1234'
-                emount = len(draw_list) \
-                    if (args["<last>"] is None) \
-                    else int(args["<last>"])
-
                 for indx, draw in enumerate(draw_list):
-                    draw_numb = int(draw[0])
-                    if indx < emount:
-                        # проверка есть ли "drop" в документе
-                        if not ("drop" in keno_find("unl", draw_numb).keys()):
 
-                            counter = DropCount(draw_list[indx:-30], draw_numb)
-                            dropped = {
+                    # cprint(draw_list[0], 'green')
+                    draw_numb = int(draw[0], 10)
+
+                    # return Document or None
+                    if keno_find('unl', draw_numb) is None:
+                        draw_date = '{}.{}.{}'.format(
+                            *(reversed(draw[1].split('-')))
+                        )
+                        draw_tron = (draw[2], draw[3])
+                        draw_ball = draw[4]
+                        counter = DropCount(draw_list[indx:-30], draw_numb)
+
+                        count = dict(
+                            comp='unl',
+                            game='keno',
+                            draw=draw_numb,
+                            date=draw_date,
+                            tron=draw_tron,
+                            rslt=draw_ball,
+                            drop={
                                 'balls': counter.get_balls(),
                                 'charts': counter.get_charts(),
                                 'odds': counter.get_odds()
                             }
+                        )
+                        if indx == 0:
+                            count["balls"] = ball_counter(draw_list, draw_numb)
+                            count["tenth"] = part_counter(draw_list, draw_numb)
 
-                            # return full Document as dictionary
-                            resp = keno_updt(
-                                draw_numb,
-                                comp="unl",
-                                type="drop",
-                                data=dropped)
+                        resp = keno_save(count)
+                        cprint(
+                            'unl > keno > draw: {} > saved with _id:{}'
+                            .format(draw_numb, resp), 'green')
+                    else:
+                        cprint(
+                            'unl > keno > draw: {} > exist'
+                            .format(draw_numb), 'red')
+                cprint("File 'keno.csv' successfully poured into DB", 'cyan')
 
-                            cprint(
-                                'unl > keno > draw: {} > ["drop"] > saved'
-                                .format(resp["draw"]), 'green')
-                        else:
-                            cprint(
-                                'unl > keno > draw: {} > ["drop"] > exist'
-                                .format(draw_numb), 'red')
-
-        ######################
-        # unl > keno > last: #
-        ######################
-        elif args['last']:
+        ##########################
+        # unl > keno > get-last: #
+        ##########################
+        elif args['get-last']:
 
             # 1. get last from unl
-            day_today = datetime.now().timetuple().tm_yday
+            day_today = datetime.now().timetuple().tm_yday + 5013
             resp = get_keno(day_today)
             unl_last = resp \
                 if resp["draw"] is not None \
@@ -163,15 +125,37 @@ if args['<comp>'] == "unl":
             # 3. Compare
             if unl_last["draw"] == db_last["draw"]:
                 cprint("Up to date", 'green')
+
+            # 4. Prepend to res file
             elif unl_last["draw"] > db_last["draw"]:
                 arry = list(range(
                     db_last["draw"] + 1,
                     unl_last["draw"] + 1
                 ))
-                print(arry)
-                with open('results/keno.csv', 'r') as keno_file:
-                    
-            
+                data_line = ''
+                for arr in arry:
+                    resp = get_keno(arr)
+                    b = [str(resp['n' + str(r)]) for r in list(range(1, 21))]
+                    line_ball = ",".join(b)
+                    date = '{}-{}-{}'.format(
+                        resp["year"], resp["month"], resp["day"])
+                    line = '{};{};{};{};{}\n'.format(
+                        resp["draw"],
+                        date,
+                        resp["lototron"],
+                        resp["ballset"],
+                        line_ball
+                    )
+                    data_line = line + data_line
+
+                cprint(data_line, 'green')
+
+                with open('results/keno.csv', 'r') as original:
+                    data = original.read()
+                with open('results/keno.csv', 'w') as modified:
+                    modified.write(data_line + data)
+
+                cprint('done', 'green')
             else:
                 cprint("4to-to ne tak", 'red')
 

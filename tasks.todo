@@ -8,5 +8,3 @@ modules/base_keno_tenth.py:
  ☐ write tests for 'part["pcen"]'
 
 main.py:
- ☐ refresh resultas.csv
- ☐ unl > keno > get-draw

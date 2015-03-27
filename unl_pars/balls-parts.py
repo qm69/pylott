@@ -25,8 +25,12 @@ with open('results/keno.csv', 'r') as keno_file:
     print(len(pesp))
 
 
-draw_data = [
-    [int(n) for n in r.split(",")]
-    if len(r) > 11 else r
-    for r in line_data.split(";")
-]
+"""
+{'n4': 0, 'all_prize': '0', 'n20': 0, 'n7': 0, 'ndraw': 1, 'n9': 0, 'n3': 0, 'year': None,
+'n16': 0, 'n14': 0, 'n5': 0, 'n1': 0, 'day_name': None, 'n15': 0, 'amonth_name': None,
+'pdraw': -1, 'n17': 0, 'n10': 0, 'month_name': None, 'n13': 0, 'lototron': None, 'n19': 0,
+'n12': 0, 'ballset': None, 'n8': 0, 'all_humans': '0 <span>штук</span>', 'n18': 0,
+'draw': None, 'n2': 0, 'month': None,
+'copy_label': 'Щоб скопіювати комбінацію натисніть Ctrl+c, а потім Enter',
+'n11': 0, 'n6': 0, 'day': None}
+"""

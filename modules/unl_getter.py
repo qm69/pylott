@@ -22,12 +22,10 @@ link = "http://lottery.com.ua/index.php"
 
 """
 Keno
-db.kenos.find({}).sort({"draw": -1}).limit(1)
-db.kenos.findOne({$query:{},$orderby:{"draw":-1}})
 """
 
 
-def get_keno(yday):
+def get_keno(draw_num):
     resp = requests.post(
         "http://lottery.com.ua/index.php",
         headers=head_dict,
@@ -35,12 +33,11 @@ def get_keno(yday):
             action="show_results_keno",
             module="lottery",
             is_ajax="true",
-            draw=5013 + yday)
+            draw=draw_num)
     ).json()
     del resp["result"]
     if resp["draw"] is not None:
         resp['draw'] = int(resp["draw"])
-    # print(resp["draw"])
     return resp
 
 # keno_list = [keno_data['n' + str(ran)] for ran in list(range(1, 21))]
