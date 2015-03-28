@@ -13,8 +13,8 @@ Usage:
 Options:
     <comp>          Company: "unl", "stoloto".
     <game>          Gamen name: "keno", "5x49".
-    file-mongo
-    balls-parts
+    file-mongo      Flow from file to MongoDB.
+    get-last        Get last from lottry.com.ua
     -h --help       Show this screen.
     -v --version    Show version.
 """
@@ -23,29 +23,27 @@ Options:
 from docopt import docopt
 from termcolor import cprint
 from datetime import datetime
-from modules.mongo import keno_find, keno_save, keno_last
+from modules.mongo_db import keno_find, keno_save, keno_last
 from modules.keno_drops import DropCount
 from modules.keno_balls import ball_counter
 from modules.keno_tenth import part_counter
 from modules.unl_getter import get_keno
 
-# 1 game, 3 methods
-args = docopt(__doc__, version='0.1.2')
+args = docopt(__doc__, version='1.14')
 
 """
-for arg in args:
-    print('{} : {}'.format(arg, args[arg]))
+Ukraine National Lottery
 """
-
 if args['<comp>'] == "unl":
-    """=============================
-    === Ukraine National Lottery ===
-    ============================="""
+
+    ############
+    #   KENO   #
+    ############
     if args['<game>'] == "keno":
 
-        ###########################
-        # unl > keno > file-mongo #
-        ###########################
+        ##################
+        #   file-mongo   #
+        ##################
         if args['file-mongo']:
             """ Keno data model
             comp = 'unl'
@@ -105,9 +103,9 @@ if args['<comp>'] == "unl":
                             .format(draw_numb), 'red')
                 cprint("File 'keno.csv' successfully poured into DB", 'cyan')
 
-        ##########################
-        # unl > keno > get-last: #
-        ##########################
+        ################
+        #   get-last   #
+        ################
         elif args['get-last']:
 
             # 1. get last from unl
@@ -124,7 +122,7 @@ if args['<comp>'] == "unl":
 
             # 3. Compare
             if unl_last["draw"] == db_last["draw"]:
-                cprint("Up to date", 'green')
+                cprint("UNL Keno results is up to date", 'green')
 
             # 4. Prepend to res file
             elif unl_last["draw"] > db_last["draw"]:

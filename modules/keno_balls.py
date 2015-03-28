@@ -14,7 +14,7 @@ def ball_counter(draws, tirag):
             draw: 5030,
             ball: 34,
             drop: 1190,
-            span 3.97,
+            span: 3.97,
             miss: 7,
             mrow: 6,
             mpas: 31,
@@ -70,7 +70,7 @@ def ball_counter(draws, tirag):
             else:
                 break
 
-        period = len(draws) / dropped
+        period = round(len(draws) / dropped, 2)
 
         resp_list.append(dict(
             draw=tirag,

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # $ py.test -v [--maxfail=1] test_keno_drop.py
+# $ py.test -v -m get_balls
+# $ py.test -v -m "not get_odds"
+# $ py.test -v -m "get_balls or get_odds"
 
 import sys
 import pytest
@@ -8,101 +11,106 @@ import pytest
 # http://stackoverflow.com/questions/714063/
 sys.path.append('/home/qm69/code/python/lottery')
 
-from pylott.modules.keno_drop import DropCount
-from pylott.results.keno_list_1000 import draw_list
+from pylott.modules.keno_drops import DropCount
+with open('results/keno.csv', 'r') as keno_file:
 
-get_balls = pytest.mark.get_balls
-get_charts = pytest.mark.get_charts
-get_odds = pytest.mark.get_odds
+    # create a list of lists like
+    # ['5018', '2015-01-05', 'B', '2', [61, 8, ... 1, 65]
+    draw_list = [
+        [
+            [int(n) for n in r.split(",")]
+            if len(r) > 11 else r for r in res.split(";")
+        ]
+        for res in keno_file.read().split('\n')
+    ]
 
-# $ py.test -v -m get_balls
-# $ py.test -v -m "not get_odds"
-# $ py.test -v -m "get_balls or get_charts"
+    get_balls = pytest.mark.get_balls
+    get_charts = pytest.mark.get_charts
+    get_odds = pytest.mark.get_odds
 
+    @pytest.fixture(scope="module")
+    def dc():
+        last_draw = int(draw_list[0][0])
+        return DropCount(draw_list[:-30], last_draw)
 
-@pytest.fixture(scope="module")
-def dc():
-    return DropCount(draw_list[:30], 5053)
+    class TestClass:
 
+        @get_balls
+        def test_drop_get_balls(self, dc):
+            resp = dc.get_balls()
 
-class TestClass:
+            # test the whole list
+            assert type(resp) is list
+            assert len(resp) == 20
 
-    @get_balls
-    def test_drop_get_balls(self, dc):
-        resp = dc.get_balls()
+            # test each ball from list
+            for ball in resp:
+                assert type(ball) is dict
+                assert len(ball) == 9
 
-        # test the whole list
-        assert type(resp) is list
-        assert len(resp) == 20
+                # 1 Hot or Cold
+                assert ball['temp'] in ['hot', 'cold', 'neit']
 
-        # test each ball from list
-        for ball in resp:
-            assert type(ball) is dict
-            assert len(ball) == 9
+                # 2 Odd or Even
+                assert ball['even'] in ['odd', 'even']
 
-            # 1 Hot or Cold
-            assert ball['hot'] in ['hot', 'cold', 'neit']
+                # 3 More or Less
+                assert ball['half'] in ['first', 'last']
 
-            # 2 Odd or Even
-            assert ball['even'] in ['odd', 'even']
+                # 4 First, Second, Third or Fourth
+                twenty_val = ['first', 'second', 'third', 'fourth']
+                assert ball['twen'] in twenty_val
 
-            # 3 More or Less
-            assert ball['half'] in ['first', 'last']
+                # 5 Once, Twice, Threce, Fource or More
+                rep_val = [
+                    'once', 'twice', 'threce',
+                    'fource', 'fifce', 'sixce'
+                ]
+                assert ball['rept'] in rep_val
 
-            # 4 First, Second, Third or Fourth
-            twenty_val = ['first', 'second', 'third', 'fourth']
-            assert ball['twenty'] in twenty_val
+                # 6 Active, Passive or Neit
+                assert ball['actv'] in ['active', 'passive', 'neit']
 
-            # 5 Once, Twice, Threce, Fource or More
-            rep_val = ['once', 'twice', 'threce', 'fource', 'fifce', 'sixce']
-            assert ball['repeat'] in rep_val
+                # 7 Rise or Fall
+                assert ball['rise'] in ['rise', 'fall', 'neit']
 
-            # 6 Active, Passive or Neit
-            assert ball['active'] in ['active', 'passive', 'neit']
+        @get_charts
+        def test_drop_get_charts(self, dc):
+            resp = dc.get_charts()
 
-            # 7 Rise or Fall
-            assert ball['rise'] in ['rise', 'fall', 'neit']
+            assert type(resp) is dict
+            assert len(resp) == 7
 
-    @get_charts
-    def test_drop_get_charts(self, dc):
-        resp = dc.get_charts()
+            # evens
+            assert sum(resp['even'][1:]) == 20
 
-        assert type(resp) is dict
-        assert len(resp) == 8
+            # halves
+            assert sum(resp['half'][1:]) == 20
 
-        # evens
-        assert sum(resp['evens'][1:]) == 20
+            # twentys
+            assert sum(resp['twel'][1:]) == 20
 
-        # halves
-        assert sum(resp['halves'][1:]) == 20
+        @get_odds
+        def test_drop_get_odds(self, dc):
+            resp = dc.get_odds()
 
-        # twentys
-        assert sum(resp['twentys'][1:]) == 20
+            # totals of second half < 610
+            assert type(resp['totl'][0]) is int
+            assert resp['totl'][0] > 0
+            assert resp['totl'][0] <= 610
 
-        # tenth
-        assert sum(resp['tenth'][1:]) == 20
+            # totals of second half < 1331
+            assert type(resp['totl'][1]) is int
+            assert resp['totl'][1] > 0
+            assert resp['totl'][1] <= 1331
 
-    @get_odds
-    def test_drop_get_odds(self, dc):
-        resp = dc.get_odds()
+            # totals of first and second halfs == total totals
+            totals = resp['totl'][0] + resp['totl'][1]
+            assert totals == resp['totl'][2]
 
-        # totals of second half < 610
-        assert type(resp['totals'][0]) is int
-        assert resp['totals'][0] > 0
-        assert resp['totals'][0] <= 610
-
-        # totals of second half < 1331
-        assert type(resp['totals'][1]) is int
-        assert resp['totals'][1] > 0
-        assert resp['totals'][1] <= 1331
-
-        # totals of first and second halfs == total totals
-        totals = resp['totals'][0] + resp['totals'][1]
-        assert totals == resp['totals'][2]
-
-        for k, v in resp.items():
-            if (k != 'totals'):
-                assert v[0] > 0
-                assert v[0] < 81
-                assert v[1] != ''
-                assert v[2] != ''
+            for k, v in resp.items():
+                if (k != 'totl'):
+                    assert v[0] > 0
+                    assert v[0] < 81
+                    assert v[1] != ''
+                    assert v[2] != ''
