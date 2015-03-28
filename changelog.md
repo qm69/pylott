@@ -1,7 +1,7 @@
 ### TODO
 ================================================
 
-### v1.18 > commit -m ""
+### v1.18 > commit -m "saturday wine"
 =======================================
     18. write test test_unl_getter.py
     17. rewrite "test_keno_drop.py"
@@ -12,4 +12,3 @@
     12. rename variables in counter.get_balls(),
     11. rename variables in counter.get_odds()
     10. rename variables in counter.get_charts()
-    
