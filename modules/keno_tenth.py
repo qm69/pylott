@@ -9,20 +9,17 @@ def part_counter(draws, tirag):
         ['5018', '2015-01-05', 'B', '2', [61, 8, ... 1, 65]
 
     Returns:
-        resp_list @ list: len == (8 * 9) == 72 >> dict:
-        {
-            draw: 5034,      # int
-            part: '41-50',   # str
-            bulk: 0,         # int
-            drop: 55,        # int
-            era: 18.8,       # float
-            mute: 18,        # int
-            pera: [0, 3, 5], # list >> int,
-            rate: 0.6        # float
-            mpas: 91,        # int
-            pcen: ???        # int
-        }
-    """
+        resp_list @ list: len == (8 * 9) == 72 >> dict: {
+            part: '41-50',       # str
+            amount: 0,           # int
+            drop: 55,            # int
+            era: 18.8,           # float
+            mute: 18,            # int
+            perEra: [0, 3, 5],   # list >> int,
+            rate: 0.6            # float
+            maxPas: 91,          # int
+            pcen: ???            # int
+    } """
 
     # THEN data about the periods of part
     # TAKE from the db.keno.parts
@@ -122,16 +119,14 @@ def part_counter(draws, tirag):
                     if amount == shtuk:
                         per_per[i] += 1
 
-            counted_parts.append(dict(
-                draw=tirag,
-                part=part,
-                bulk=amount,
-                drop=dropped,
-                era=period,
-                mute=silence,
-                pera=per_per,
-                rate=ratio,
-                mpas=max_pass
-            ))
+            counted_parts.append({
+                'part': part,
+                'amount': amount,
+                'drop': dropped,
+                'era': period,
+                'mute': silence,
+                'perEra': per_per,
+                'rate': ratio,
+                'maxPas': max_pass})
 
     return counted_parts

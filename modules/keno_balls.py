@@ -9,19 +9,15 @@ def ball_counter(draws, tirag):
         ['5018', '2015-01-05', 'B', '2', [61, 8, ... 1, 65]
 
     Returns:
-        resp_list @ list: len == 80 >> dict:
-        {
-            draw: 5030,
+        resp_list @ list: len == 80 >> dict: {
             ball: 34,
             drop: 1190,
-            span: 3.97,
-            miss: 7,
-            mrow: 6,
-            mpas: 31,
-            tier: [
-                [347, 123, 67, 45, 23, 12, 6, 3, 1],
-                [443, 117, 69, 51, 31, 15, 9, 6, 3, 1],
-            ]
+            period: 3.97,
+            mute: 7,
+            maxRow: 6,
+            maxPas: 31,
+            series: [[347, 123, 67, 45, 23, 12, 6, 3, 1],
+                     [443, 117, 69, 51, 31, 15, 9, 6, 3, 1]]
         }
     """
     resp_list = []
@@ -37,7 +33,7 @@ def ball_counter(draws, tirag):
 
     for ball in list(range(1, 81)):
 
-        [dropped, length] = [0, 0]
+        dropped, length = 0, 0
 
         # series of inrows and passes
         [ser_inrow, ser_pass] = [[0] * 40, [0] * 40]
@@ -72,18 +68,14 @@ def ball_counter(draws, tirag):
 
         period = round(len(draws) / dropped, 2)
 
-        resp_list.append(dict(
-            draw=tirag,
-            ball=ball,
-            drop=dropped,
-            span=period,
-            miss=missing,
-            mrow=len(ser_inrow),
-            mpas=len(ser_pass),
-            tier=[
-                pop_zeros(ser_inrow),
-                pop_zeros(ser_pass)
-            ]
-        ))
+        resp_list.append({
+            'ball': ball,
+            'drop': dropped,
+            'period': period,
+            'mute': missing,
+            'maxRow': len(ser_inrow),
+            'maxPas': len(ser_pass),
+            'series': [pop_zeros(ser_inrow),
+                       pop_zeros(ser_pass)]})
 
     return resp_list

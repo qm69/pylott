@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # import bson
-import json
+# import json
 from pymongo import MongoClient
 # для поиска по _id
 # from bson.objectid import ObjectId
@@ -10,7 +10,7 @@ from pymongo import MongoClient
 
 client = MongoClient("localhost", 27017)
 
-db = client["pylott-dev"]
+db = client["mean-dev"]
 # mong_keno = db["keno"]
 
 
@@ -22,8 +22,7 @@ def keno_find(comp, draw):
         # Document or None
         return db.kenos.find_one(
             # '_id': ObjectId('5509cb2eedce301277c7b9b6'),
-            {'draw': draw, 'comp': comp}
-        )
+            {'draw': draw, 'comp': comp})
     except Exception:
         raise Exception("'keno_draw' что-то не так")
 
