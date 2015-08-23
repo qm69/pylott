@@ -8,7 +8,7 @@ import pytest
 # http://stackoverflow.com/questions/714063/
 sys.path.append('/home/qm69/code/python/lottery')
 
-from pylott.modules.unl_getter import get_keno
+from pylott.libs.unl_getter import get_keno
 
 
 @pytest.fixture(scope="module")

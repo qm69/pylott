@@ -8,7 +8,7 @@ import pytest
 # http://stackoverflow.com/questions/714063/
 sys.path.append('/home/qm69/code/python/lottery')
 
-from pylott.modules.keno_tenth import part_counter
+from pylott.libs.keno_tenth import part_counter
 with open('results/keno.csv', 'r') as keno_file:
     # create a list of lists like
     # ['5018', '2015-01-05', 'B', '2', [61, 8, ... 1, 65]

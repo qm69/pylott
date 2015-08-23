@@ -11,7 +11,7 @@ import pytest
 # http://stackoverflow.com/questions/714063/
 sys.path.append('/home/qm69/code/python/lottery')
 
-from pylott.modules.keno_drops import DropCount
+from pylott.libs.keno_drops import DropCount
 with open('results/keno.csv', 'r') as keno_file:
 
     # create a list of lists like

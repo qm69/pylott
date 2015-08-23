@@ -23,11 +23,11 @@ Options:
 from docopt import docopt
 from termcolor import cprint
 # from datetime import datetime
-from modules.mongo_db import keno_find, keno_save  # keno_last
-from modules.keno_drops import DropCount
-from modules.keno_balls import ball_counter
-from modules.keno_tenth import part_counter
-# from modules.unl_getter import get_keno
+from libs.mongo_db import keno_find, keno_save  # keno_last
+from libs.keno_drops import DropCount
+from libs.keno_balls import ball_counter
+from libs.keno_tenth import part_counter
+# from libs.unl_getter import get_keno
 
 args = docopt(__doc__, version='1.14')
 
