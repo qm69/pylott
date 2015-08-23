@@ -1,0 +1,25 @@
+{
+    "name": "js-loto",
+    "version": "0.1",
+    "description": "Nodejs UNL statistic",
+    "main": "keno.js",
+    "dependencies": {
+        "async": "^0.9.0",
+        "colors": "^1.0.3",
+        "underscore": "^1.8.3"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/qm69/lottery.git"
+    },
+    "author": "",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/qm69/lottery/issues"
+    },
+    "homepage": "https://github.com/qm69/lottery"
+}
