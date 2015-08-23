@@ -40,6 +40,8 @@ game_name = dict(keno='Кено', loto3='Лото Трійка', maxima='Лот�
     "lototron":"\u0410",
     "ballset":"2",
 }"""
+schem = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n10",
+         "n11", "n12", "n13", "n14", "n15", "n16", "n17", "n18", "n19", "n20"]
 
 
 def get_resalts(game, draw_num):
@@ -61,10 +63,15 @@ def get_resalts(game, draw_num):
         game=game_name[game],
         suit=[resp["lototron"], resp["ballset"]],
         # RegEx отфильтровать ключи = 'n' + numb || 'n' + numb + numb
-        rslt=[resp["n1"], resp["n2"], resp["n3"]],
+        rslt=[],
         # BSON -> tzinfo save with
-        date=datetime(resp["year"], resp["month"], resp["day"], 23, 0, 0, 0),
-    )
+        date=datetime(resp["year"], resp["month"], resp["day"], 23, 0, 0, 0))
+    resp_keys = resp.keys()
+    ball_schem = schem if game == 'keno' else schem[:6]
+    for bs in ball_schem:
+        if bs in resp_keys:
+            data['rslt'].append(resp[bs])
+    print(data['rslt'])
     return data
 
 if __name__ == '__main__':

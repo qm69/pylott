@@ -24,16 +24,16 @@ def more(arg):
 
 def amount(draw, form, to):
     # [], [7], [7, 8], [7, 8, 9]
-    data = list(filter(lambda el: el >= form and el <= to, draw))
+    data = filter(lambda el: el >= form and el <= to, draw)
     arry = ['blue', 'green', 'yellow', 'white']
-    data_len = len(data)
+    data_len = len(list(data))
     return colored(data_len, arry[data_len])
 
 
 def summ(draw, form, to, total):
     """ diapazon Summ """
     filt = sorted(draw, key=lambda el: el >= form and el <= to)
-    summ = sum(filt) if len(filt) > 0 else 0
+    summ = sum(filt) if filt else 0
     return colored('0' + str(summ) if summ < 10 else summ,
                    'red' if summ < total else 'magenta')
 
