@@ -9,9 +9,7 @@ from pymongo import MongoClient
 # from pymongo import Connection
 
 client = MongoClient("localhost", 27017)
-
 db = client["mean-dev"]
-# mong_keno = db["keno"]
 
 
 def keno_find(comp, draw):
@@ -63,8 +61,7 @@ def keno_updt(numb, comp, type, data):
             update={"$set": {type: data}},
             upsert=False,
             sort=None,
-            full_response=False
-        )
+            full_response=False)
     except Exception:
         raise Exception("'keno_updt' что-то не так")
 

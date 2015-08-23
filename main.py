@@ -41,9 +41,9 @@ if args['<comp>'] == "unl":
     ############
     if args['<game>'] == "keno":
 
-        ##################
-        #   csv-mongo   #
-        ##################
+        ###################
+        #    csv-mongo    # Schema v.3.5
+        ###################
         if args['csv-mongo']:
             """ Keno data model
             firm = 'unl'
@@ -68,7 +68,8 @@ if args['<comp>'] == "unl":
                     # return Document or None
                     if keno_find('unl', draw_numb) is None:
                         draw_date = draw[1]
-                        draw_tron = (draw[2], draw[3])
+                        # from UTF-* bytes to cyrillic 'А' or 'Б'
+                        draw_tron = b'\xd0\x90' if draw[2] == 'a' else b'\xd0\x91'
                         draw_ball = draw[4]
                         counter = DropCount(draw_list[index:-30], draw_numb)
 
@@ -76,15 +77,16 @@ if args['<comp>'] == "unl":
                             firm='unl',
                             draw=draw_numb,
                             date=draw_date,
-                            suit=draw_tron,
+                            suit=(draw_tron.decode(), draw[3]),
                             result=draw_ball,
                             sorted=sorted(draw_ball),
-                            droped=dict(balls=counter.get_balls(),
-                                        charts=counter.get_charts(),
-                                        bets=counter.get_odds()))
+                            drop=dict(balls=counter.get_balls(),
+                                      # bets=counter.get_odds(),
+                                      charts=counter.get_charts()))
+
                         if index == 0:
-                            count["balls"] = ball_counter(draw_list, draw_numb)
-                            count["tenth"] = part_counter(draw_list, draw_numb)
+                            count["bals"] = ball_counter(draw_list, draw_numb)
+                            count["tens"] = part_counter(draw_list, draw_numb)
 
                         resp = keno_save(count)
                         text_one = 'unl > keno > draw: {} > saved with _id:{}'

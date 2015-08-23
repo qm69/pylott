@@ -4,6 +4,41 @@
     "draw" : 5224,
     "sorted" : [2, 3, 11, 14, 21, 23, 25, 31, 33, 39, 41, 42, 43, 60, 61, 62, 66, 71, 73, 77],
     "result" : [2, 66, 71, 61, 3, 42, 77, 31, 39, 25, 23, 41, 11, 21, 14, 33, 60, 43, 62, 73],
+    "droped" : {
+        "balls" : [{
+            // 20 елементов
+            "ball" : 39,
+            "seat" : 9, // шары по возрастанию
+            // charts data
+            "temp" : "inert",
+            "even" : "odd",
+            "half" : "first",
+            "twenty" : "second",
+            "repeat" : "once",
+            "active" : "passive",
+            "vector" : "inert",
+        }],
+        //вариант  ball  seat   temp    even   active     vector   half     twenty   repeat
+        "balls" : ["39", "9", "inert", "odd", "passive", "inert", "first", "second", "once"],
+        "39": ["inert", "odd", "passive", "inert", "first", "second", "once"],
+        "charts" : {
+            "even" : [5224, 6, 14],
+            "temp" : [5224, 4, 4],
+            "half" : [5224, 6, 14],
+            "vector" : [5224, 5, 1],
+            "repeat" : [5224, 16],
+            "active" : [5224, 2, 3],
+            "twenty" : [5224,  4, 6, 4, 6],
+        },
+    },
+    //  добавить dropes 1,2 & 79,80
+    "bets" : {
+        "totals" : [202, 596, 798],
+        "last" : [73, "odd", "over"],
+        "most" : [77, "odd", "over"],
+        "least" : [2, "even", "under"],
+        "first" : [2, "even", "under"]
+    },
     "balls" : [ 
         {
             "drop" : 1348,
@@ -4680,293 +4715,5 @@
             "mute" : 5224
         }
     ],
-    "droped" : {
-        "balls" : [ 
-            {
-                "seat" : 1,
-                "ball" : 2,
-                "vector" : "inert",
-                "half" : "last",
-                "temp" : "inert",
-                "even" : "even",
-                "active" : "inert",
-                "twenty" : "first",
-                "repeat" : "threce"
-            }, 
-            {
-                "seat" : 2,
-                "ball" : 66,
-                "temp" : "hot",
-                "even" : "even",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "last",
-                "twenty" : "fourth",
-                "repeat" : "twice"
-            }, 
-            {
-                "seat" : 3,
-                "ball" : 71,
-                "temp" : "cold",
-                "even" : "odd",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "fourth",
-                "repeat" : "once"
-            }, 
-            {
-                "seat" : 4,
-                "ball" : 61,
-                "temp" : "hot",
-                "even" : "odd",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "fourth",
-                "repeat" : "fource"
-            }, 
-            {
-                "seat" : 5,
-                "ball" : 3,
-                "temp" : "inert",
-                "even" : "odd",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "first",
-                "repeat" : "threce"
-            }, 
-            {
-                "seat" : 6,
-                "ball" : 42,
-                "temp" : "inert",
-                "even" : "even",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "last",
-                "twenty" : "third",
-                "repeat" : "twice"
-            }, 
-            {
-                "seat" : 7,
-                "ball" : 77,
-                "temp" : "cold",
-                "even" : "odd",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "fourth",
-                "repeat" : "fifce"
-            }, 
-            {
-                "seat" : 8,
-                "ball" : 31,
-                "temp" : "inert",
-                "even" : "odd",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "second",
-                "repeat" : "twice"
-            }, 
-            {
-                "seat" : 9,
-                "ball" : 39,
-                "temp" : "inert",
-                "even" : "odd",
-                "active" : "passive",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "second",
-                "repeat" : "once"
-            }, 
-            {
-                "seat" : 10,
-                "ball" : 25,
-                "temp" : "hot",
-                "even" : "odd",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "second",
-                "repeat" : "twice"
-            }, 
-            {
-                "seat" : 11,
-                "ball" : 23,
-                "temp" : "inert",
-                "even" : "odd",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "second",
-                "repeat" : "twice"
-            }, 
-            {
-                "seat" : 12,
-                "ball" : 41,
-                "temp" : "inert",
-                "even" : "odd",
-                "active" : "passive",
-                "vector" : "fall",
-                "half" : "first",
-                "twenty" : "third",
-                "repeat" : "once"
-            }, 
-            {
-                "seat" : 13,
-                "ball" : 11,
-                "temp" : "cold",
-                "even" : "odd",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "first",
-                "repeat" : "twice"
-            }, 
-            {
-                "seat" : 14,
-                "ball" : 21,
-                "temp" : "inert",
-                "even" : "odd",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "second",
-                "repeat" : "twice"
-            }, 
-            {
-                "seat" : 15,
-                "ball" : 14,
-                "temp" : "cold",
-                "even" : "even",
-                "active" : "passive",
-                "vector" : "inert",
-                "half" : "last",
-                "twenty" : "first",
-                "repeat" : "once"
-            }, 
-            {
-                "seat" : 16,
-                "ball" : 33,
-                "temp" : "inert",
-                "even" : "odd",
-                "active" : "active",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "second",
-                "repeat" : "fource"
-            }, 
-            {
-                "seat" : 17,
-                "ball" : 60,
-                "temp" : "inert",
-                "even" : "even",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "last",
-                "twenty" : "third",
-                "repeat" : "twice"
-            }, 
-            {
-                "seat" : 18,
-                "ball" : 43,
-                "temp" : "inert",
-                "even" : "odd",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "third",
-                "repeat" : "twice"
-            }, 
-            {
-                "seat" : 19,
-                "ball" : 62,
-                "temp" : "hot",
-                "even" : "even",
-                "active" : "inert",
-                "vector" : "inert",
-                "half" : "last",
-                "twenty" : "fourth",
-                "repeat" : "fifce"
-            }, 
-            {
-                "seat" : 20,
-                "ball" : 73,
-                "temp" : "inert",
-                "even" : "odd",
-                "active" : "active",
-                "vector" : "inert",
-                "half" : "first",
-                "twenty" : "fourth",
-                "repeat" : "fifce"
-            }
-        ],
-        "bets" : {
-            "last" : [ 
-                73, 
-                "odd", 
-                "over"
-            ],
-            "totals" : [ 
-                202, 
-                596, 
-                798
-            ],
-            "most" : [ 
-                77, 
-                "odd", 
-                "over"
-            ],
-            "least" : [ 
-                2, 
-                "even", 
-                "under"
-            ],
-            "first" : [ 
-                2, 
-                "even", 
-                "under"
-            ]
-        },
-        "charts" : {
-            "even" : [ 
-                5224, 
-                6, 
-                14
-            ],
-            "vector" : [ 
-                5224, 
-                5, 
-                1
-            ],
-            "twentyty" : [ 
-                5224, 
-                4, 
-                6, 
-                4, 
-                6
-            ],
-            "half" : [ 
-                5224, 
-                6, 
-                14
-            ],
-            "active" : [ 
-                5224, 
-                2, 
-                3
-            ],
-            "repeat" : [ 
-                5224, 
-                16
-            ],
-            "temp" : [ 
-                5224, 
-                4, 
-                4
-            ]
-        }
-    }
+
 }

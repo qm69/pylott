@@ -39,4 +39,4 @@ apparent_encoding', 'close', 'connection', 'content', 'cookies', 'elapsed', 'enc
 'history', 'is_permanent_redirect', 'is_redirect', 'iter_content', 'iter_lines', 'json', 'links',
 'ok', 'raise_for_status', 'raw', 'reason', 'request', 'status_code', 'text', 'url'
 """
-# print(get_keno(4800))
+print(get_keno(4800))

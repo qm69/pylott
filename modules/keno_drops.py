@@ -19,7 +19,7 @@ class DropCount(object):
             temp: [5043, 4, 3],          # hot or cold
             even: [5043, 13, 7],         # odd or even
             half: [5043, 9, 11],         # by halfs
-            twenty: [5043, 4, 5, 6, 5],  # by twentytys
+            twenty: [5043, 4, 5, 6, 5],  # by twentys
             repeat: [5043, 3],           # repeats
             active: [5043, 2, 4],        # active and passive
             hot: [5043, 1, 2],           # on hot and fall
@@ -31,7 +31,7 @@ class DropCount(object):
             'temp': [tirag, 0, 0],
             'even': [tirag, 0, 0],
             'half': [tirag, 0, 0],
-            'twentyty': [tirag, 0, 0, 0, 0],
+            'twenty': [tirag, 0, 0, 0, 0],
             'repeat': [tirag, 0],
             'active': [tirag, 0, 0],
             'vector': [tirag, 0, 0]
@@ -57,10 +57,10 @@ class DropCount(object):
             temp: 'cold',       # temperature
             even: 'even',       # odd or even
             half: 'last',       # by halfs
-            twenty: 'third',    # by twentytyves
+            twenty: 'third',    # by twentys
             repeat: 'twice',    # repeat or not
             active: 'passive',  # active
-            vector: 'inert'      # hot or fall
+            vector: 'inert'     # hot or fall
         } """
         balls = []
 
@@ -110,16 +110,16 @@ class DropCount(object):
             # 'first', 'second', 'third' or 'fourth'
             if (ball > 0 and ball <= 20):
                 ball_data['twenty'] = 'first'
-                self.chart['twentyty'][1] += 1
+                self.chart['twenty'][1] += 1
             elif (ball > 20 and ball <= 40):
                 ball_data['twenty'] = 'second'
-                self.chart['twentyty'][2] += 1
+                self.chart['twenty'][2] += 1
             elif (ball > 40 and ball <= 60):
                 ball_data['twenty'] = 'third'
-                self.chart['twentyty'][3] += 1
+                self.chart['twenty'][3] += 1
             else:
                 ball_data['twenty'] = 'fourth'
-                self.chart['twentyty'][4] += 1
+                self.chart['twenty'][4] += 1
 
             # 5. Number of zrepeated dropping of the ball
             # 'once', 'twice', 'threce', 'fource', 'fifce', 'sixce'

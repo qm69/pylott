@@ -1,0 +1,6 @@
+Lottery Schema
+ ☐ add 'game' like 'Трійка'
+ ☐ save draw date with UTC by bson.tz_util
+ ☐ firm -> Трійка
+ ☐ Номер лототрона -> String
+ ☐ resalt -> rslt

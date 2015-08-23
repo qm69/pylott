@@ -6,3 +6,6 @@ modules/__pycache__/
 results/__pycache__/
 tests/__pycache__/
 temp/
+
+lottery.js/node_modules/
+lottery.js/results/

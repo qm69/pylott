@@ -1,0 +1,4 @@
+УНЛ
+ ☐ save draw date with UTC by bson.tz_util
+ ✔ resalt -> rslt @done (15-08-23 03:43)
+ ✔ если в базе ни единого тиража -> 0 @done (15-08-23 03:43)
