@@ -4,8 +4,8 @@
 import sys
 sys.path.append('..\\..\\')
 from lottlibs.lott_db import LottDB
-from unl_draws import draw_numb
-from unl_getter import get_resalts
+from now_draw import draw_numb
+from get_unl import get_resalts
 """
 troika = LottDB('troika')
 last_base = troika.find_last('УНЛ')

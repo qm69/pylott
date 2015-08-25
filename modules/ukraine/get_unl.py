@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+import re
 import requests
 from datetime import datetime
 
@@ -40,13 +40,9 @@ game_name = dict(keno='Кено', loto3='Лото Трійка', maxima='Лот�
     "lototron":"\u0410",
     "ballset":"2",
 }"""
-schem = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n10",
-         "n11", "n12", "n13", "n14", "n15", "n16", "n17", "n18", "n19", "n20"]
 
 
 def get_resalts(game, draw_num):
-    data = dict()
-
     resp = requests.post(
         "http://lottery.com.ua/index.php",
         headers=head_dict,
@@ -62,17 +58,19 @@ def get_resalts(game, draw_num):
         draw=draw_num,
         game=game_name[game],
         suit=[resp["lototron"], resp["ballset"]],
-        # RegEx отфильтровать ключи = 'n' + numb || 'n' + numb + numb
-        rslt=[],
         # BSON -> tzinfo save with
         date=datetime(resp["year"], resp["month"], resp["day"], 23, 0, 0, 0))
-    resp_keys = resp.keys()
-    ball_schem = schem if game == 'keno' else schem[:6]
-    for bs in ball_schem:
-        if bs in resp_keys:
-            data['rslt'].append(resp[bs])
-    print(data['rslt'])
+
+    regex, items = re.compile('[n]\d+'), resp.items()
+    draw_list = sorted([[k[1:], v] for k, v in items if regex.findall(k)], key=lambda k: k[0])
+    rslt = [r[1] for r in draw_list]
+    data['rslt'] = rslt
+    data['srtd'] = sorted(rslt, key=lambda i: i)
+
     return data
 
 if __name__ == '__main__':
+    print(get_resalts('maxima', 1050))
+    print(get_resalts('sloto', 1500))
     print(get_resalts('loto3', 4098))
+    print(get_resalts('keno', 5248))
