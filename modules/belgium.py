@@ -6,5 +6,5 @@ Joker +     -> 6 x 10 + 1 x 12 (1 знак зодиака)
 Keno        -> 20 x 70 | after 23:00 everyday
 Pick 3      -> 3 x 10  | Everyday ~ 20:30
 Lotto       -> 6 x 45 + 1 x 45 | среда и суббота @ ~20:00.
-Super Lotto -> ???
+Super Lotto -> 6 x 45? + 1 
 """

@@ -62,7 +62,7 @@ class LottDB(object):
         except Exception:
             raise Exception("Troika.find() что-то не так")
 
-    def find_last(self, firm):
+    def last_draw(self, firm):
         """ Достать последний тираж """
         try:
             # Document or None
@@ -71,6 +71,18 @@ class LottDB(object):
                     .sort('draw', -1)
                     .limit(1))
             return resp[0]['draw'] if resp.count() > 0 else 0
+        except Exception:
+            raise Exception("Keno.last_draw() что-то не так")
+
+    def last_date(self, firm):
+        """ Достать последний тираж """
+        try:
+            # Document or None
+            resp = (self.game
+                    .find({'firm': firm}, {'date': 1})
+                    .sort('date', -1)
+                    .limit(1))
+            return resp[0]['date'] if resp.count() > 0 else '17/12/23'
         except Exception:
             raise Exception("Keno.last_draw() что-то не так")
 

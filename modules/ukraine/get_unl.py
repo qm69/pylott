@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import re
 import requests
-from datetime import datetime
+from datetime import datetime, tzinfo, timedelta
 
 link = "http://lottery.com.ua/index.php"
 user_agent = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko)\
@@ -42,6 +42,23 @@ game_name = dict(keno='Кено', loto3='Лото Трійка', maxima='Лот�
 }"""
 
 
+class TimeZone(tzinfo):
+    def __init__(self, name, off_set):
+
+        self.name = name
+        self.offset = off_set
+        self.isdst = False
+
+    def tzname(self, dt):
+        return self.name
+
+    def utcoffset(self, dt):
+        return timedelta(hours=self.offset) + self.dst(dt)
+
+    def dst(self, dt):
+        return timedelta(hours=1) if self.isdst else timedelta(0)
+
+
 def get_resalts(game, draw_num):
     resp = requests.post(
         "http://lottery.com.ua/index.php",
@@ -53,6 +70,7 @@ def get_resalts(game, draw_num):
             is_ajax="true",
             draw=draw_num)).json()
     # resp = json.loads(rqst.text)
+    kiev = TimeZone('Europe/Kiev', 3)
     data = dict(
         firm='УНЛ',  # 'УНЛ'
         draw=draw_num,

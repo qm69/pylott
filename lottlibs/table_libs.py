@@ -14,7 +14,7 @@ def summ_amnt(draw, form, to, total=None):
         return colored('0' + str(suma) if suma < 10 else suma,
                        'red' if suma < total else 'magenta')
     else:
-        colors = ['blue', 'green', 'yellow', 'white']
+        colors = ['blue', 'green', 'yellow', 'white', 'white']
         data_len = len(data)
         return colored(data_len, colors[data_len])
 

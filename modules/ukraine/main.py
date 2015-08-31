@@ -4,8 +4,10 @@
 import sys
 sys.path.append('..\\..\\')
 from lottlibs.lott_db import LottDB
+
 from now_draw import draw_numb
 from get_unl import get_resalts
+
 """
 troika = LottDB('troika')
 last_base = troika.find_last('УНЛ')
@@ -22,7 +24,7 @@ else:
         print(save)
 """
 decima = LottDB('decima')
-last_base = decima.find_last('УНЛ')
+last_base = decima.last_draw('УНЛ')
 for_now = draw_numb('keno')
 print('Last in base: {}, For now: {}'.format(last_base, for_now))
 
