@@ -1,3 +1,23 @@
+Package Control Messages
+========================
+
+MarkdownEditing:
+---------------
+
+  ## To-do >> tabler.py
+  - [ ] перенести в отдельную базу 'pylott-dev'
+  - [ ] коллекцию 'troika' >> 'triple'
+  - [x] отформатировать вывод в 'triple`.py'
+  - [x] отформатировать вывод в 'quatro.py'
+  - [x] отформатировать вывод в 'decima.py'
+  - [x] обернуть в функцию для експорта с параметрами 'triple.py'
+  - [x] обернуть в функцию для експорта с параметрами 'quatro.py'
+  - [x] обернуть в функцию для експорта с параметрами 'decima.py'
+  - [x] вынести 'triple, quatro & decima.py' >> lottlibs/termlibs
+  - [x] настроить 'docopt' в 'termtable.py'
+  - [ ] описать функционал 'termtable.py' в 'README.md'
+  - [ ] git commit -m 'termtable' tag v.3
+  
 Бельгия
   - Pick 3 » 19:45 [~21:30] aka "lotteryextreme.com/belgium"
     "nationale-loterij.be/nl/onze-spelen/pick-3/resultaten"
@@ -27,7 +47,7 @@
   - Keno
 ==================  Done  =======================
 Украина
-  - Тройка » 19:30 [~23:00]
+  - Тройка » 19:30 GMT 20:00 [23:00 +3:00]
     "lottery.com.ua/uk/lottery/loto3/results.htm"
-  - Кено   » 19:30 [~23:00]
+  - Кено   » 19:30 GMT 20:00 [23:00 +3:00]
     "lottery.com.ua/uk/lottery/loto3/results.htm"

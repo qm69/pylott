@@ -16,7 +16,7 @@ def summ_amnt(draw, form, to, total=None):
     else:
         colors = ['blue', 'green', 'yellow', 'white', 'white']
         data_len = len(data)
-        return colored(data_len, colors[data_len])
+        return colored(data_len, colors[data_len] if data_len < 5 else 'white')
 
 
 def counter(value, total, zero=None):
