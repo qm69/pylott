@@ -1,12 +1,9 @@
-Package Control Messages
-========================
-
 MarkdownEditing:
 ---------------
 
   ## To-do >> tabler.py
-  - [ ] перенести в отдельную базу 'pylott-dev'
-  - [ ] коллекцию 'troika' >> 'triple'
+  - [х] перенести в отдельную базу 'pylott-dev'
+  - [х] коллекцию 'troika' >> 'triple'
   - [x] отформатировать вывод в 'triple`.py'
   - [x] отформатировать вывод в 'quatro.py'
   - [x] отформатировать вывод в 'decima.py'
@@ -15,14 +12,21 @@ MarkdownEditing:
   - [x] обернуть в функцию для експорта с параметрами 'decima.py'
   - [x] вынести 'triple, quatro & decima.py' >> lottlibs/termlibs
   - [x] настроить 'docopt' в 'termtable.py'
+  - [х] git commit -m 'termtable' tag v.3
+  - [x] вывод если ключа 'suit' не существует 
   - [ ] описать функционал 'termtable.py' в 'README.md'
-  - [ ] git commit -m 'termtable' tag v.3
   
-Бельгия
-  - Pick 3 » 19:45 [~21:30] aka "lotteryextreme.com/belgium"
-    "nationale-loterij.be/nl/onze-spelen/pick-3/resultaten"
-  - Keno » 19:45 [~21:30]
-    "nationale-loterij.be/nl/onze-spelen/keno/resultaten"
+  ## To-do >> modules
+  - [ ] 'date_drange' считает от последнего к раннему, а перебирать наоборот
+  - [ ] 'date_drange' вынести глобально для всех
+  - [ ] 'print_save()' добавить дату
+  - [ ] 'print_head()' and 'print_save()' вынести глобально для всех
+
+  ## To-do >> scraper.py
+  - [ ] do smth
+
+Lottery Data 
+====================================================
 Флорида
   - Cash 3 » 20:29 [!21:30] & 02:31 [03:57]
     "flalottery.com/cash3.do"
@@ -33,21 +37,27 @@ MarkdownEditing:
     "http://www.calottery.com/play/draw-games/daily-3"
   - Daily 4 » 04:30 [07:30]
     "calottery.com/play/draw-games/daily-4"
-Зеландия
-  - Play 3 » 08:30 [<09:30]
-    "mylotto.co.nz/index.php/play3/results/"
 Нью-Йорк
   - ВИН 4   » 19:20 [20:24] & 02:30 [15:35]
     "nylottery.ny.gov/wps/portal/Home/Lottery/Home/Daily+Games/WIN+4"
   - Numbers » 10:00 [20:24] & 02:00 [15:35] (МарафрнБет)
     "nylottery.ny.gov/wps/portal/Home/Lottery/Home/Daily+Games/NUMBERS"
+Зеландия
+  - Play 3 » 08:30 [<09:30]
+    "mylotto.co.nz/index.php/play3/results/"
 Онтарио
   - Pick 3 » 20:55 & 01:55 (МарафрнБет)
     ???"lotterycanada.com/ontario-pick-3"
   - Keno
+
 ==================  Done  =======================
 Украина
   - Тройка » 19:30 GMT 20:00 [23:00 +3:00]
     "lottery.com.ua/uk/lottery/loto3/results.htm"
   - Кено   » 19:30 GMT 20:00 [23:00 +3:00]
     "lottery.com.ua/uk/lottery/loto3/results.htm"
+Бельгия
+  - Pick 3 » 19:45 [~21:30] aka "lotteryextreme.com/belgium"
+    "nationale-loterij.be/nl/onze-spelen/pick-3/resultaten"
+  - Keno » 19:45 [~21:30]
+    "nationale-loterij.be/nl/onze-spelen/keno/resultaten"

@@ -14,7 +14,7 @@ from pymongo import MongoClient
 """
 
 client = MongoClient("localhost", 27017)
-db = client["mean-dev"]
+db = client["pylott-dev"]
 
 
 class LottDB(object):
@@ -28,6 +28,7 @@ class LottDB(object):
         """
         self.game = db[game]
 
+    """ save """
     def save_one(self, draw_dict):
         """ firm: 'УНЛ'
             game: 'Трійка'
@@ -39,18 +40,18 @@ class LottDB(object):
         try:
             return self.game.save(draw_dict)
         except Exception:
-            raise Exception("Keno.save_one() что-то не так")
+            raise Exception("LottDB.save_one() что-то не так")
 
     def save_many(self):
-        pass
+        print('LottDB.save_many() is dump function')
 
-    def find_draw(self, firm, draw):
-        """ Проверить наличие тиража в базе """
+    def find_one(self, firm, date):
+        """ find by date """
         try:
             # returns Document or None,
-            return self.game.find_one({'firm': firm, 'draw': draw})
+            return self.game.find_one({'firm': firm, 'date': date})
         except Exception:
-            raise Exception("Keno.find_one() что-то не так")
+            raise Exception("LottDB.find_one() что-то не так")
 
     def find_many(self, firm, amount):
         """ Find n last draws """
@@ -60,32 +61,26 @@ class LottDB(object):
                     .sort('draw', -1)
                     .limit(amount))
         except Exception:
-            raise Exception("Troika.find() что-то не так")
+            raise Exception("LottDB.find() что-то не так")
 
-    def last_draw(self, firm):
-        """ Достать последний тираж """
+    def find_last(self, firm, dt=None, draw=None):
+        """ return Date() or Int() or None"""
         try:
-            # Document or None
-            resp = (self.game
-                    .find({'firm': firm}, {'draw': 1})
-                    .sort('draw', -1)
-                    .limit(1))
-            return resp[0]['draw'] if resp.count() > 0 else 0
-        except Exception:
-            raise Exception("Keno.last_draw() что-то не так")
+            if dt:
+                resp = (self.game.find({'firm': firm}, {'date': 1})
+                                 .sort('date', -1)
+                                 .limit(1))
+                return resp[0]['date'] if resp.count() > 0 else None
+            else:
+                resp = (self.game.find({'firm': firm}, {'draw': 1})
+                                 .sort('draw', -1)
+                                 .limit(1))
+                return resp[0]['draw'] if resp.count() > 0 else None
 
-    def last_date(self, firm):
-        """ Достать последний тираж """
-        try:
-            # Document or None
-            resp = (self.game
-                    .find({'firm': firm}, {'date': 1})
-                    .sort('date', -1)
-                    .limit(1))
-            return resp[0]['date'] if resp.count() > 0 else '17/12/23'
         except Exception:
-            raise Exception("Keno.last_draw() что-то не так")
+            raise Exception("LottDB.find_last() что-то не так")
 
+    """ updt """
     def updt_one(self, firm, numb, tipe, data):
         # api.mongodb.org/python/2.6.3/api/pymongo/collection.html
         try:
@@ -97,10 +92,10 @@ class LottDB(object):
                 sort=None,
                 full_response=False)
         except Exception:
-            raise Exception("'keno_updt' что-то не так")
+            raise Exception("LottDB.updt_one() что-то не так")
 
     def updt_many(self):
-        pass
+        print('LottDB.updt_many() is dump function')
 
 if __name__ == '__main__':
     """

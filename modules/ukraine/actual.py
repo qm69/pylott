@@ -16,7 +16,7 @@ def draw_numb(game):
         # последний тираж 2014 года
         return 5013 + int(day_of_year) - i
     # Лото Трійка
-    elif game == 'troika':
+    elif game == 'loto3':
         i = 1 if dt_now.hour < 23 else 0
         # последний тираж 2014 года
         return 3866 + int(day_of_year) - i
@@ -33,7 +33,7 @@ def draw_numb(game):
                 maxima_draw += 1
         return maxima_draw
     # Супер Лото
-    elif game == 'super':
+    elif game == 'sloto':
         super_draw, super_days = 1433, [2, 5]
         # если сегодня день тиража, но еще не наступил
         start = 1 if (today_weekday in super_days and

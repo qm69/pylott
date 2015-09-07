@@ -2,15 +2,14 @@
 # -*- coding: utf-8 -*-
 
 from termcolor import colored, cprint
-from lottlibs.lott_db import LottDB
-from lottlibs.table_libs import counter, summ_amnt, true_false
+from libraries.lott_db import LottDB
+from libraries.table_libs import counter, summ_amnt, true_false
 
 
 def triple(company, dlina=12):
 
-    troika = LottDB('troika')
+    troika = LottDB('triple')
     resp = troika.find_many(company, dlina)
-
     meta_data = []
     draw_balls = []
     ball_line = []  # выпавшие шары

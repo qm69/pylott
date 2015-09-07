@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 import re
 import requests
-from datetime import datetime, tzinfo, timedelta
+from datetime import datetime
 
-link = "http://lottery.com.ua/index.php"
 user_agent = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko)\
               Ubuntu Chromium/40.0.2214.111 Chrome/40.0.2214.111 Safari/537.36"
 head_dict = {"Accept": "application/json, text/javascript, */*; q=0.01",
@@ -18,9 +17,10 @@ head_dict = {"Accept": "application/json, text/javascript, */*; q=0.01",
              "User-Agent": user_agent,
              "X-Requested-With": "XMLHttpRequest"}
 
-game_name = dict(keno='Кено', loto3='Лото Трійка', maxima='Лото Максима', sloto='Супер Лото')
+game_name = dict(keno='Кено', loto3='Лото Трійка',
+                 maxima='Лото Максима', sloto='Супер Лото')
 
-""" Response{
+""" Response {
     "result":"\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab_val_line\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab_val_item
      money\">500.<span>00<\/span><\/div>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab_val_item\">8<\/div>\n
     \t\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab_val_item\">\u0422\u043e\u0447\u043d\u0438\u0439 \u0432\u0438
@@ -42,23 +42,6 @@ game_name = dict(keno='Кено', loto3='Лото Трійка', maxima='Лот�
 }"""
 
 
-class TimeZone(tzinfo):
-    def __init__(self, name, off_set):
-
-        self.name = name
-        self.offset = off_set
-        self.isdst = False
-
-    def tzname(self, dt):
-        return self.name
-
-    def utcoffset(self, dt):
-        return timedelta(hours=self.offset) + self.dst(dt)
-
-    def dst(self, dt):
-        return timedelta(hours=1) if self.isdst else timedelta(0)
-
-
 def get_resalts(game, draw_num):
     resp = requests.post(
         "http://lottery.com.ua/index.php",
@@ -69,15 +52,12 @@ def get_resalts(game, draw_num):
             module="lottery",
             is_ajax="true",
             draw=draw_num)).json()
-    # resp = json.loads(rqst.text)
-    kiev = TimeZone('Europe/Kiev', 3)
     data = dict(
         firm='УНЛ',  # 'УНЛ'
         draw=draw_num,
         game=game_name[game],
         suit=[resp["lototron"], resp["ballset"]],
-        # BSON -> tzinfo save with
-        date=datetime(resp["year"], resp["month"], resp["day"], 23, 0, 0, 0))
+        date=datetime(resp["year"], resp["month"], resp["day"], 20, 0))
 
     regex, items = re.compile('[n]\d+'), resp.items()
     draw_list = sorted([[k[1:], v] for k, v in items if regex.findall(k)], key=lambda k: k[0])

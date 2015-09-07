@@ -18,14 +18,14 @@ Options:
 """
 
 from docopt import docopt
-from lottlibs.tablelibs.decima import decima
-from lottlibs.tablelibs.quatro import quatro
-from lottlibs.tablelibs.triple import triple
+from libraries.tablelibs.triple import triple
+from libraries.tablelibs.quatro import quatro
+from libraries.tablelibs.decima import decima
 
 args = docopt(__doc__, version='1.14')
 game_type = args['<game>']
 comp = args['<comp>']
-print(game_type, comp)
+
 """
 Ukraine National Lottery
 """
