@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from termcolor import colored, cprint
-from libraries.lott_db import LottDB
-from libraries.table_libs import counter, summ_amnt, true_false
+from librs.lott_db import LottDB
+from librs.table_libs import counter, summ_amnt, true_false
 
 
 def triple(company, dlina=12):
@@ -24,14 +24,15 @@ def triple(company, dlina=12):
         draw = r['rslt']
         sort_arr = sorted(draw)
         suma = sum(draw)
+        keys = r.keys()
         ballOne, ballTwo, ballTri = draw
 
         """  meta data  """
         meta_data.append(' {} {} {} {}'.format(
             str(r['draw']) if 'draw' in r.keys() else '',
             r['date'].strftime("%d-%m-%Y"),
-            r['suit'][0],
-            r['suit'][1] if len(r['suit']) == 2 else ''))
+            r['suit'][0] if 'suit' in keys else '   ',
+            r['suit'][1] if 'suit' in keys and len(r['suit']) == 2 else ''))
 
         """  draw balls  """
         draw_balls.append(' '.join([str(b) for b in draw]))

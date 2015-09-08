@@ -17,10 +17,12 @@ MarkdownEditing:
   - [ ] описать функционал 'termtable.py' в 'README.md'
   
   ## To-do >> modules
+  - [x] 'libraries' >> 'librs'
+  - [x] 'date_drange' вынести глобально для всех
+  - [x] 'print_head()' and 'print_save()' вынести глобально для всех
   - [ ] 'date_drange' считает от последнего к раннему, а перебирать наоборот
-  - [ ] 'date_drange' вынести глобально для всех
-  - [ ] 'print_save()' добавить дату
-  - [ ] 'print_head()' and 'print_save()' вынести глобально для всех
+  - [ ] 'librs >> printer >> print_save()' добавить дату
+  - [ ] Belgium >> main.py >> 'Up to date' don't work
 
   ## To-do >> scraper.py
   - [ ] do smth
@@ -38,17 +40,8 @@ Lottery Data
   - Daily 4 » 04:30 [07:30]
     "calottery.com/play/draw-games/daily-4"
 Нью-Йорк
-  - ВИН 4   » 19:20 [20:24] & 02:30 [15:35]
+  - Win 4   » 19:20 [20:24] & 02:30 [15:35]
     "nylottery.ny.gov/wps/portal/Home/Lottery/Home/Daily+Games/WIN+4"
-  - Numbers » 10:00 [20:24] & 02:00 [15:35] (МарафрнБет)
-    "nylottery.ny.gov/wps/portal/Home/Lottery/Home/Daily+Games/NUMBERS"
-Зеландия
-  - Play 3 » 08:30 [<09:30]
-    "mylotto.co.nz/index.php/play3/results/"
-Онтарио
-  - Pick 3 » 20:55 & 01:55 (МарафрнБет)
-    ???"lotterycanada.com/ontario-pick-3"
-  - Keno
 
 ==================  Done  =======================
 Украина
@@ -61,3 +54,13 @@ Lottery Data
     "nationale-loterij.be/nl/onze-spelen/pick-3/resultaten"
   - Keno » 19:45 [~21:30]
     "nationale-loterij.be/nl/onze-spelen/keno/resultaten"
+Зеландия
+  - Play 3 » 08:30 [<09:30]
+    "mylotto.co.nz/index.php/play3/results/"
+==================  МарафрнБет  =======================
+Онтарио
+  - Pick 3 » 20:55 & 01:55 (МарафрнБет)
+    ???"lotterycanada.com/ontario-pick-3"
+Нью-Йорк
+  - Numbers » 10:00 [20:24] & 02:00 [15:35] (МарафрнБет)
+    "nylottery.ny.gov/wps/portal/Home/Lottery/Home/Daily+Games/NUMBERS"

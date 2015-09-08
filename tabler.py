@@ -18,9 +18,9 @@ Options:
 """
 
 from docopt import docopt
-from libraries.tablelibs.triple import triple
-from libraries.tablelibs.quatro import quatro
-from libraries.tablelibs.decima import decima
+from librs.tablelibs.triple import triple
+from librs.tablelibs.quatro import quatro
+from librs.tablelibs.decima import decima
 
 args = docopt(__doc__, version='1.14')
 game_type = args['<game>']

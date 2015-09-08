@@ -33,9 +33,8 @@ def linker(game_name, draw_date):
     return link.format(**link_dict)
 
 
-def get_draw(game, dd):
-    """
-        smth about """
+def get_resalts(game, dd):
+    """ smth about """
     link = linker(game, dd)
     # content, encoding, headers, json, raw, status_code, text
     r = requests.get(link)
@@ -43,7 +42,7 @@ def get_draw(game, dd):
         raise Exception('Status code is {}'.format(r.status_code))
 
     soup = BeautifulSoup(r.content)
-
+    soup.encode("utf8")
     if game == 'cash_3' or game == 'play_4':
         sf = soup.find(class_='winningNumbersResults')
         if not sf:
@@ -63,7 +62,8 @@ def get_draw(game, dd):
                 game='Cash 3' if game == 'cash_3' else 'Play 4',
                 suit=['M' if index == 0 else 'E'],
                 date=datetime.combine(dd, tm),
-                rslt=rslt)
+                rslt=rslt,
+                srtd=sorted(rslt, key=lambda i: i))
             rslt_list.append(data)
 
         return rslt_list
@@ -85,6 +85,6 @@ def get_draw(game, dd):
         return data
 
 if __name__ == '__main__':
-    print(get_draw('cash_3', date(2015, 8, 18)))
-    print(get_draw('play_4', date(2015, 8, 7)))
-    print(get_draw('lucky_money', date(2015, 7, 21)))
+    print(get_resalts('cash_3', date(2015, 8, 18)))
+    print(get_resalts('play_4', date(2015, 8, 7)))
+    print(get_resalts('lucky_money', date(2015, 7, 21)))
