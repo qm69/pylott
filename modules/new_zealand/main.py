@@ -12,7 +12,7 @@ from modules.new_zealand.getter import get_resalts
 
 def play_3():
     triple = LottDB('triple')
-    last_draw_in_base = triple.find_last('New Zealand', draw=True)
+    last_draw_in_base = triple.find_last('New Zealand', 'draw')
     actl_draw_for_now = draw_numb('New Zealand', 12.00, True, [time(18, 0)], 87)
     print_head('New Zealand. Play 3', last_draw_in_base, actl_draw_for_now)
 

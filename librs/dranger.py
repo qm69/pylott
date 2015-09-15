@@ -4,13 +4,16 @@ from datetime import date, timedelta
 
 
 def drange(first, last, days=[0, 1, 2, 3, 4, 5, 6]):
-    """
-        Arguments:
-            first >> datetime.date
-            last  >> datetime.date
-            days  >> [ int 0 ... 6 ]
-        Returns:
-            [ datetime.date ]
+    """ Smth about this function
+
+    Arguments:
+        first >> datetime.date
+        last  >> datetime.date
+        days  >> [ int 0 ... 6 ]
+
+    Returns:
+        [ datetime.date ]
+
     """
     tmpl = "{} must be a 'datetime.datetime' not a {}"
     if type(first) is not date:
@@ -25,7 +28,7 @@ def drange(first, last, days=[0, 1, 2, 3, 4, 5, 6]):
     date_list = []
     dlina = (last - first).days
 
-    for dr in range(1, dlina):
+    for dr in range(0, dlina):
         day = first + timedelta(days=dr + 1)
         if day.weekday() in days:
             date_list.append(day)

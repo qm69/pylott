@@ -8,8 +8,8 @@ from librs.tablelibs.helpers import counter, true_false, summ_amnt
 
 def decima(company, dlina=12):
     # название колекции
-    troika = LottDB('decima')
-    resp = troika.find_many(company, dlina)
+    keno = LottDB('decima')
+    resp = keno.find_many(company, dlina)
 
     meta_data = []
     draw_balls = []

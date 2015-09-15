@@ -8,8 +8,8 @@ from librs.tablelibs.helpers import counter, true_false, summ_amnt
 
 def quatro(company, dlina=12):
 
-    troika = LottDB('quatro')
-    resp = troika.find_many('California', dlina)
+    quatro = LottDB('quatro')
+    resp = quatro.find_many(company, dlina)
 
     meta_data = []
     draw_balls = []

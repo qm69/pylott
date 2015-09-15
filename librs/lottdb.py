@@ -58,28 +58,44 @@ class LottDB(object):
         try:
             return (self.game
                     .find({'firm': firm})
-                    .sort('draw', -1)
+                    .sort('date', -1)
                     .limit(amount))
         except Exception:
             raise Exception("LottDB.find() что-то не так")
 
-    def find_last(self, firm, dt=None, draw=None):
-        """ return Date() or Int() or None"""
+    def find_last(self, firm, field, suit=None):
+        """ Smth about this function
+
+        Agruments:
+            firm  >> str:
+            field >> str: 'draw' or 'date'
+            suit  >> bool:
+
+        Returns:
+            Smth
+        """
+        print(firm, field)
+        if field not in ['draw', 'date']:
+            raise Exception("Такого поля нету")
         try:
-            if dt:
-                resp = (self.game.find({'firm': firm}, {'date': 1})
-                                 .sort('date', -1)
-                                 .limit(1))
-                if resp.count() > 0:
-                    # а если нет ???
-                    return [resp[0]['date'], resp[0]['suit'][0]]
+            resp = self.game.find_one({'firm': firm}, sort=[('date', -1)])
+            if resp:
+                if field == 'date':
+                    if suit:
+                        # find_last('Florida', field='draw', suit=True)
+                        return [resp['date'].date(), resp['suit'][0]]
+                    else:
+                        # find_last('Florida', field='date')
+                        return resp['date'].date()
                 else:
-                    return None
+                    if suit:
+                        # find_last('Florida', field='draw', suit=True)
+                        return [resp['draw'], resp['suit'][0]]
+                    else:
+                        # find_last('Florida', field='date')
+                        return resp['draw']
             else:
-                resp = (self.game.find({'firm': firm}, {'draw': 1})
-                                 .sort('draw', -1)
-                                 .limit(1))
-                return resp[0]['draw'] if resp.count() > 0 else None
+                return None
 
         except Exception:
             raise Exception("LottDB.find_last() что-то не так")
@@ -100,9 +116,3 @@ class LottDB(object):
 
     def updt_many(self):
         print('LottDB.updt_many() is dump function')
-
-if __name__ == '__main__':
-    triple = LottDB('triple')
-    last_draw = triple.find_last('Florida', dt=True)
-    print(last_draw)
-    [print(f) for f in triple.find_many('Florida', 5)]
