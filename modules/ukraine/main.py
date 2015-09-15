@@ -4,17 +4,17 @@
 import sys
 sys.path.append('..\\..\\')
 
-from librs.lott_db import LottDB
+from datetime import time
+from librs.lottdb import LottDB
 from librs.printer import print_head, print_save, print_red
-
-from modules.ukraine.actual import draw_numb
+from librs.actual import draw_numb
 from modules.ukraine.getter import get_resalts
 
 
 def loto3():
     triple = LottDB('triple')
     last_draw_in_base = triple.find_last('УНЛ', draw=True)
-    actl_draw_for_now = draw_numb('loto3')
+    actl_draw_for_now = draw_numb('EU/Kiev', 2.00, True, [time(23, 0)], 3866)
     print_head('УНЛ. Лото Тройка', last_draw_in_base, actl_draw_for_now)
 
     if last_draw_in_base == actl_draw_for_now:
@@ -30,7 +30,7 @@ def loto3():
 def keno():
     decima = LottDB('decima')
     last_draw_in_base = decima.find_last('УНЛ', draw=True)
-    actl_draw_for_now = draw_numb('keno')
+    actl_draw_for_now = draw_numb('EU/Kiev', 2.00, True, [time(23, 0)], 5013)
     print_head('УНЛ. КЕНО', last_draw_in_base, actl_draw_for_now)
 
     if last_draw_in_base == actl_draw_for_now:
@@ -46,7 +46,7 @@ def keno():
 def maxima():
     qvinta = LottDB('qvinta')
     last_draw_in_base = qvinta.find_last('УНЛ', draw=True)
-    actl_draw_for_now = draw_numb('maxima')
+    actl_draw_for_now = draw_numb('EU/Kiev', 2.00, True, [time(23, 0)], 949, [1, 3, 6])
     print_head('УНЛ. Лото Максима', last_draw_in_base, actl_draw_for_now)
 
     if last_draw_in_base == actl_draw_for_now:

@@ -58,7 +58,7 @@ def get_resalts(game, dd):
             tm = time(hour=13, minute=30) if index == 0 else time(hour=19, minute=57)
 
             data = dict(
-                firm='California',
+                firm='Florida',
                 game='Cash 3' if game == 'cash_3' else 'Play 4',
                 suit=['M' if index == 0 else 'E'],
                 date=datetime.combine(dd, tm),
@@ -76,7 +76,7 @@ def get_resalts(game, dd):
         td_balls = [0, 2, 4, 6, 8]
         spans = sf.find_all('span')
         data = dict(
-            firm='California',
+            firm='Florida',
             game='Lucky Money',
             # suit=['M' if index == 0 else 'E'],
             date=datetime.combine(dd, time(hour=23, minute=15)),

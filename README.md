@@ -20,7 +20,7 @@ MarkdownEditing:
   - [x] 'libraries' >> 'librs'
   - [x] 'date_drange' вынести глобально для всех
   - [x] 'print_head()' and 'print_save()' вынести глобально для всех
-  - [ ] 'date_drange' считает от последнего к раннему, а перебирать наоборот
+  - [x] 'date_drange' считает от последнего к раннему, а перебирать наоборот
   - [ ] 'librs >> printer >> print_save()' добавить дату
   - [ ] Belgium >> main.py >> 'Up to date' don't work
 
@@ -34,8 +34,9 @@ Lottery Data
     "flalottery.com/cash3.do"
   - Play 4 » 20:30 [21:30] & 02:29 [03:57]
     "Smth link"
-Калифорния
+Калифорния Pacific Time -8/-7
   - Daily 3 » 21:45 [<00:36] & 04:30 [07:30]
+    1:00pm and 6:30pm 
     "http://www.calottery.com/play/draw-games/daily-3"
   - Daily 4 » 04:30 [07:30]
     "calottery.com/play/draw-games/daily-4"
@@ -55,7 +56,7 @@ Lottery Data
   - Keno » 19:45 [~21:30]
     "nationale-loterij.be/nl/onze-spelen/keno/resultaten"
 Зеландия
-  - Play 3 » 08:30 [<09:30]
+  - Play 3 » 18:00 GMT +12 08:30 [<09:30]
     "mylotto.co.nz/index.php/play3/results/"
 ==================  МарафрнБет  =======================
 Онтарио

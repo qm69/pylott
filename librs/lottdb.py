@@ -70,7 +70,11 @@ class LottDB(object):
                 resp = (self.game.find({'firm': firm}, {'date': 1})
                                  .sort('date', -1)
                                  .limit(1))
-                return resp[0]['date'] if resp.count() > 0 else None
+                if resp.count() > 0:
+                    # а если нет ???
+                    return [resp[0]['date'], resp[0]['suit'][0]]
+                else:
+                    return None
             else:
                 resp = (self.game.find({'firm': firm}, {'draw': 1})
                                  .sort('draw', -1)
@@ -98,15 +102,7 @@ class LottDB(object):
         print('LottDB.updt_many() is dump function')
 
 if __name__ == '__main__':
-    """
-    troika = LottDB('troika')
-    last_draw = troika.find_last('УНЛ')
-    find = troika.find_many('УНЛ', 5)
-    for f in find:
-        print(f)
-    """
-    decima = LottDB('decima')
-    last_draw = decima.find_last('УНЛ')
-    find = decima.find_many('УНЛ', 5)
-    for f in find:
-        print(f)
+    triple = LottDB('triple')
+    last_draw = triple.find_last('Florida', dt=True)
+    print(last_draw)
+    [print(f) for f in triple.find_many('Florida', 5)]

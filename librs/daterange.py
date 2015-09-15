@@ -3,12 +3,12 @@
 from datetime import date, timedelta
 
 
-def drange(first, last, days=None):
+def drange(first, last, days=[0, 1, 2, 3, 4, 5, 6]):
     """
         Arguments:
-            first > datetime.date
-            last  > datetime.date
-            days  > [ int from 0 to 6 ]
+            first >> datetime.date
+            last  >> datetime.date
+            days  >> [ int 0 ... 6 ]
         Returns:
             [ datetime.date ]
     """
@@ -24,25 +24,16 @@ def drange(first, last, days=None):
 
     date_list = []
     dlina = (last - first).days
-    d_range = range(0, dlina)
 
-    """ дублирование для скорости """
-    if days:
-        for x in d_range:
-            day = last - timedelta(days=x + 1)
-            if day.weekday() in days:
-                date_list.append(day)
-    else:
-        for x in d_range:
-            day = last - timedelta(days=x + 1)
+    for dr in range(1, dlina):
+        day = first + timedelta(days=dr + 1)
+        if day.weekday() in days:
             date_list.append(day)
 
     return (date_list)
 
-
 if __name__ == '__main__':
     last = date.today()
-    first = date(2015, 8, 1)
-    week_days = [2, 5]
-    dr = date_range(first, last, week_days)
-    [print(dt) for dt in dr]
+    first = date(2015, 7, 1)
+    week_days = [0, 2, 5]
+    [print(dt) for dt in drange(first, last, week_days)]

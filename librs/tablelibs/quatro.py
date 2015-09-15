@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # 'blue', 'green', 'yellow', 'magenta', 'red' # 'grey', 'white'
 from termcolor import colored, cprint
-from librs.lott_db import LottDB
-from librs.table_libs import counter, summ_amnt, true_false
+from librs.lottdb import LottDB
+from librs.tablelibs.helpers import counter, true_false, summ_amnt
 
 
 def quatro(company, dlina=12):

@@ -3,6 +3,15 @@
 
 import sys
 sys.path.append('..\\..\\')
+from datetime import date, timedelta
+
+from librs.lottdb import LottDB
+from librs.printer import print_head, print_save, print_red
+from librs.date_range import drange
+
+from modules.__florida.actual import draw_date
+from modules.__florida.getter import get_resalts
+
 """
 I: by Url, II: by Date (has no draw numbers)
 Eastern Time => зимой (ноябрь-март) - UTC-5,  летом (апрель-октябрь) — UTC-4
@@ -16,44 +25,23 @@ Play 4        => 4 x 10          | Midday @ 13:30 [17:57 GMT, +1 day 20:30 Kiev]
 Cash 3        => 3 x 10          | Midday @ 13:30 [17:57 GMT, +1 day 20:30 Kiev] and
                                    Evening @ 19:57 [23:57 GMT, +1 day 02:57 Kiev]
 """
-from termcolor import cprint, colored
-from datetime import date, timedelta
-from librs.lott_db import LottDB
-from librs.date_range import drange
-from modules.florida.actual import draw_date
-from modules.florida.getter import get_resalts
-
-
-def print_head(title, last_base, actual):
-    print(colored('\n  ' + title, 'blue', 'on_white'))
-    print(colored('  in base: ', 'green') +
-          colored(last_base, 'red') +
-          colored(', actual: ', 'green') +
-          colored(actual, 'red'))
-
-
-def print_save(draw, save):
-    print(colored('  saved: ', 'green') +
-          colored(draw, 'red') +
-          colored(', id: ', 'green') +
-          colored(str(save)[-6:], 'red'))
 
 
 def cash_3():
     triple = LottDB('triple')
+    # dt.datetime
     last_draw_in_base = triple.find_last('Florida', dt=True)
+    print(last_draw_in_base)
+    # dt.date
     actl_draw_for_now = draw_date('cash_3')
-    print(last_draw_in_base, type(last_draw_in_base))
-    print(actl_draw_for_now, type(actl_draw_for_now))
-    print_head('Florida. Play 4',
-               last_draw_in_base if last_draw_in_base else 'No resalts',
-               actl_draw_for_now)
 
-    if last_draw_in_base == actl_draw_for_now:
-        cprint('  ! results is up to date !', 'red')
+    print_head('Florida. Cash 3', last_draw_in_base, actl_draw_for_now)
+
+    if last_draw_in_base and last_draw_in_base == actl_draw_for_now:
+        print_red('! results is up to date !')
     else:
         start = last_draw_in_base.date() + timedelta(days=1) if last_draw_in_base else date(2015, 8, 1)
-        for draw in drange(start, actl_draw_for_now + timedelta(days=1)):
+        for draw in drange(start, actl_draw_for_now):
             rslt = get_resalts('cash_3', draw)
             if len(rslt) == 1:
                 save = triple.save_one(rslt)
@@ -61,7 +49,7 @@ def cash_3():
             elif len(rslt) == 2:
                 [print_save(draw, triple.save_one(rs)) for rs in rslt]
             else:
-                cprint('  No resalts at ' + draw.strftime('%Y-%m-%d'), 'red')
+                print_red('No resalts at ' + draw.strftime('%Y-%m-%d'))
 
 
 def play_4():
@@ -73,7 +61,7 @@ def play_4():
                actl_draw_for_now)
 
     if last_draw_in_base.date() == actl_draw_for_now:
-        cprint('  ! results is up to date !', 'red')
+        print_red('  ! results is up to date !')
     else:
         start = last_draw_in_base + timedelta(days=1) if last_draw_in_base else date(2015, 8, 1)
         for draw in drange(start, actl_draw_for_now + timedelta(days=1)):
@@ -84,7 +72,7 @@ def play_4():
             elif len(rslt) == 2:
                 [print_save(draw, quatro.save_one(rs)) for rs in rslt]
             else:
-                cprint('  No resalts at ' + draw.strftime('%Y-%m-%d'), 'red')
+                print_red('No resalts at ' + draw.strftime('%Y-%m-%d'))
 
 
 def main():
