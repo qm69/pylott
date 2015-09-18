@@ -26,8 +26,7 @@ class TimeZone(tzinfo):
         return timedelta(hours=1) if self.isdst else timedelta(0)
 
 
-def draw_date(tz_name, tz_gmt, tz_dst,
-              draw_time, draw_day=[0, 1, 2, 3, 4, 5, 6]):
+def draw_date(tz_name, tz_gmt, tz_dst, draw_time, draw_day=[0, 1, 2, 3, 4, 5, 6]):
     """ Возвращает актуальную дату последнего тиража на сейчас
 
     print(time_zone_now.strftime('%Y/%m/%d %H:%M:%S %A %Z %z'))
@@ -93,8 +92,7 @@ def draw_date(tz_name, tz_gmt, tz_dst,
             return resp if len(draw_time) == 1 else [resp, 'e']
 
 
-def draw_numb(tz_name, tz_gmt, tz_dst,
-              draw_time, last_2014, draw_day=[0, 1, 2, 3, 4, 5, 6]):
+def draw_numb(tz_name, tz_gmt, tz_dst, draw_time, last_2014, draw_day=[0, 1, 2, 3, 4, 5, 6]):
     """ Возвращает актуальный номер последнего тиража на сейчас
 
     Args:

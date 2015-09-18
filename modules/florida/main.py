@@ -14,7 +14,7 @@ from modules.florida.getter import get_resalts
 
 def cash_3():
     triple = LottDB('triple')
-    # suit=True >> [datetime.date(2015, 9, 8), 'E']
+    # suit=True >> [datetime.date(2015, 9, 8), 'e']
     last_date_in_base, suit_base = triple.find_last('Florida', 'date', suit=True)
     # suit=True >> [datetime.date(2015, 9, 8), 'm']
     actl_draw_for_now, suit_now = draw_date('EastTime', -4.00, True, [time(13, 30), time(19, 57)])
@@ -29,7 +29,9 @@ def cash_3():
             rslt = get_resalts('cash_3', draw)
             if rslt:
                 for r in rslt:
-                    # проверить чтоб из первой пары не сохраял 'M'
+                    """
+                    !!! !!! передеалать
+                    """
                     if r['date'].date() == last_date_in_base and r['suit'][0] == 'M':
                         print('  Уже должен быть в базе')
                     else:
@@ -41,7 +43,7 @@ def cash_3():
 
 def play_4():
     quatro = LottDB('quatro')
-    # suit=True >> [datetime.date(2015, 9, 8), 'E']
+    # suit=True >> [datetime.date(2015, 9, 8), 'e']
     last_date_in_base, suit_base = quatro.find_last('Florida', 'date', suit=True) or [date(2015, 9, 8), 'E']
     # suit=True >> [datetime.date(2015, 9, 8), 'm']
     actl_draw_for_now, suit_now = draw_date('EastTime', -4.00, True, [time(13, 30), time(19, 57)])

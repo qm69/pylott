@@ -74,7 +74,6 @@ class LottDB(object):
         Returns:
             Smth
         """
-        print(firm, field)
         if field not in ['draw', 'date']:
             raise Exception("Такого поля нету")
         try:

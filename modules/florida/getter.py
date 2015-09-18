@@ -15,6 +15,7 @@ Play 4        => 4 x 10 | Midday @ 1:30 p.m. and Evening @ 7:57 p.m. Eastern Tim
 Cash 3        => 3 x 10 | Midday @ 1:30 p.m. and Evening @ 7:57 p.m. Eastern Time.
 """
 
+
 def linker(game_name, draw_date):
     """
     Arguments:
@@ -69,7 +70,7 @@ def get_resalts(game, dd):
             data = dict(
                 firm='Florida',
                 game='Cash 3' if game == 'cash_3' else 'Play 4',
-                suit=['M' if index == 0 else 'E'],
+                suit=['m' if index == 0 else 'e'],
                 date=datetime.combine(dd, tm),
                 rslt=rslt,
                 srtd=sorted(rslt, key=lambda i: i))
