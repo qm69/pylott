@@ -12,12 +12,12 @@ def triple(company, dlina=12):
     resp = troika.find_many(company, dlina)
     meta_data = []
     draw_balls = []
-    ball_line = []  # выпавшие шары
+    ball_line = []     # выпавшие шары
     one_two_tri = []
-    small_large = []  # наименьш и наибольш
-    neighbors = []  # + 1й > 2 & 1й > 3го; 1й, 2й & 3й
-    multiple = []  # кратный 2, 3, 4
-    odd_even = []  # чет и нечет
+    small_large = []   # наименьш и наибольш
+    neighbors = []     # + 1й > 2 & 1й > 3го; 1й, 2й & 3й
+    multiple = []      # кратный 2, 3, 4
+    odd_even = []      # чет и нечет
     all_win_amnt = []  # к-во и сумма
 
     for r in resp:

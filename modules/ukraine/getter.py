@@ -17,8 +17,10 @@ head_dict = {"Accept": "application/json, text/javascript, */*; q=0.01",
              "User-Agent": user_agent,
              "X-Requested-With": "XMLHttpRequest"}
 
-game_name = dict(keno='Кено', loto3='Лото Трійка',
-                 maxima='Лото Максима', sloto='Супер Лото')
+game_name = dict(keno='Кено',
+                 loto3='Лото Трійка',
+                 maxima='Лото Максима',
+                 sloto='Супер Лото')
 
 """ Response {
     "result":"\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab_val_line\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab_val_item
@@ -47,11 +49,11 @@ def get_resalts(game, draw_num):
         "http://lottery.com.ua/index.php",
         headers=head_dict,
         data=dict(
-            # keno, loto3, maxima, sloto
-            action="show_results_" + game,
+            action="show_results_" + game,  # keno, loto3, maxima, sloto
             module="lottery",
             is_ajax="true",
-            draw=draw_num)).json()
+            draw=draw_num)
+    ).json()
     data = dict(
         firm='УНЛ',  # 'УНЛ'
         draw=draw_num,
@@ -59,16 +61,21 @@ def get_resalts(game, draw_num):
         suit=[resp["lototron"], resp["ballset"]],
         date=datetime(resp["year"], resp["month"], resp["day"], 20, 0))
 
-    regex, items = re.compile('[n]\d+'), resp.items()
-    draw_list = sorted([[k[1:], v] for k, v in items if regex.findall(k)], key=lambda k: k[0])
-    rslt = [r[1] for r in draw_list]
-    data['rslt'] = rslt
-    data['srtd'] = sorted(rslt, key=lambda i: i)
+    regex = re.compile('[n]\d+')
+    items = resp.items()
+    """ ('n3', 18), ('n15', 27) ... ('n12', 57), ('n7', 57) """
+    unsrtd = [(int(k[1:]), v) for k, v in items if regex.findall(k)]
+    """ ('n1', 66), ('n2', 54) ... ('n19', 57), ('n20', 57) """
+    srtd = sorted(unsrtd, key=lambda k: k[0])
+    draw_list = [second for first, second in srtd]
+
+    data['rslt'] = draw_list
+    data['srtd'] = sorted(draw_list, key=lambda i: i)
 
     return data
 
 if __name__ == '__main__':
     print(get_resalts('maxima', 1050))
     print(get_resalts('sloto', 1500))
-    print(get_resalts('loto3', 4098))
-    print(get_resalts('keno', 5248))
+    print(get_resalts('loto3', 4232))
+    print(get_resalts('keno', 5333))

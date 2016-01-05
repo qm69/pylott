@@ -1,35 +1,31 @@
-MarkdownEditing:
----------------
+## pylott Состоит из двух блоков `scrapper` и `tabler`
+#### scrapper.py
+  - идет в папку `modules`
+  - перебирает каждую подпапку `if not dr.startswith('__')`
+  - в ней запускает файл `main.py`
+  - в файл `main.py` запускается функция `main()`
+    который можно запустить вручную из Sublime
 
-  ## To-do >> tabler.py
-  - [х] перенести в отдельную базу 'pylott-dev'
-  - [х] коллекцию 'troika' >> 'triple'
-  - [x] отформатировать вывод в 'triple`.py'
-  - [x] отформатировать вывод в 'quatro.py'
-  - [x] отформатировать вывод в 'decima.py'
-  - [x] обернуть в функцию для експорта с параметрами 'triple.py'
-  - [x] обернуть в функцию для експорта с параметрами 'quatro.py'
-  - [x] обернуть в функцию для експорта с параметрами 'decima.py'
-  - [x] вынести 'triple, quatro & decima.py' >> lottlibs/termlibs
-  - [x] настроить 'docopt' в 'termtable.py'
-  - [х] git commit -m 'termtable' tag v.3
-  - [x] вывод если ключа 'suit' не существует 
+## To-do
+#### tabler.py
   - [ ] описать функционал 'termtable.py' в 'README.md'
-  
-  ## To-do >> modules
-  - [x] 'libraries' >> 'librs'
-  - [x] 'date_drange' вынести глобально для всех
-  - [x] 'print_head()' and 'print_save()' вынести глобально для всех
-  - [x] 'date_drange' считает от последнего к раннему, а перебирать наоборот
+  - [ ] decima добавить номера к повторам шаров
+
+#### modules
+  - [x] New York время тиража не добавляет
+  - [ ] Автоматически выводить название лотереи
+  - [ ] Belgium Pick 3 пропускает тиражи
+  - [ ] California не добавляет время тиража
   - [ ] 'librs >> printer >> print_save()' добавить дату
   - [ ] Belgium >> main.py >> 'Up to date' don't work
 
-  ## To-do >> scraper.py
-  - [ ] do smth
+#### scraper.py
 
 Lottery Data 
 ====================================================
 Нью-Йорк
+  - Numbers » 10:00 [20:24] & 02:00 [15:35] (МарафрнБет)
+    "nylottery.ny.gov/wps/portal/Home/Lottery/Home/Daily+Games/NUMBERS"
   - Win 4   » 19:20 [20:24] & 02:30 [15:35]
     "nylottery.ny.gov/wps/portal/Home/Lottery/Home/Daily+Games/WIN+4"
 
@@ -53,8 +49,7 @@ Lottery Data
   - Play 4 » 20:30 [21:30] & 02:29 [03:57]
     "Smth link"
 Калифорния Pacific Time -8/-7
-  - Daily 3 » 21:45 [<00:36] & 04:30 [07:30]
-    1:00pm and 6:30pm 
+  - Daily 3 » 21:45 [<00:36] & 04:30 [07:30] 1:00pm and 6:30pm 
     "http://www.calottery.com/play/draw-games/daily-3"
   - Daily 4 » 04:30 [07:30]
     "calottery.com/play/draw-games/daily-4"
@@ -62,6 +57,3 @@ Lottery Data
 Онтарио
   - Pick 3 » 20:55 & 01:55 (МарафрнБет)
     ???"lotterycanada.com/ontario-pick-3"
-Нью-Йорк
-  - Numbers » 10:00 [20:24] & 02:00 [15:35] (МарафрнБет)
-    "nylottery.ny.gov/wps/portal/Home/Lottery/Home/Daily+Games/NUMBERS"

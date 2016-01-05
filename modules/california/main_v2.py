@@ -11,11 +11,10 @@ from librs.actual import draw_numb
 from modules.california.getter import past_page
 
 
-def daily_3():
+def main_daily_3():
     triple = LottDB('triple')
     last_draw_in_base = triple.find_last('California', 'draw')
-    last_draw_of_rev_year = 13469
-    actl_draw_for_now = draw_numb('Pacific Time', -8.00, True, [time(13, 0), time(18, 30)], last_draw_of_rev_year)
+    actl_draw_for_now = draw_numb('Pacific Time', -8.00, True, [time(13, 0), time(18, 30)], 12739)
     print_head('California. Daily 3', last_draw_in_base, actl_draw_for_now)
 
     if last_draw_in_base != actl_draw_for_now:
@@ -31,11 +30,10 @@ def daily_3():
         print_red('! results is up to date !')
 
 
-def daily_4():
+def main_daily_4():
     quatro = LottDB('quatro')
     last_draw_in_base = quatro.find_last('California', 'draw')
-    last_draw_of_rev_year = 2783
-    actl_draw_for_now = draw_numb('Pacific Time', -8.00, True, [time(18, 30)], last_draw_of_rev_year)
+    actl_draw_for_now = draw_numb('Pacific Time', -8.00, True, [time(18, 30)], 2418)
     print_head('California. Daily 4', last_draw_in_base, actl_draw_for_now)
 
     if last_draw_in_base != actl_draw_for_now:
@@ -52,8 +50,8 @@ def daily_4():
 
 
 def main():
-    daily_3()
-    daily_4()
+    # main_daily_3()
+    main_daily_4()
 
 if __name__ == '__main__':
     main()

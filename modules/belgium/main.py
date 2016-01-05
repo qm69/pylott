@@ -12,12 +12,22 @@ from modules.belgium.getter import get_resalts
 
 
 def pick_3():
+    """ {
+        "srtd": [5, 7, 9],
+        "game": "Pick 3",
+        "rslt": [9, 5, 7],
+        "date": {
+            "$date": "2015-20-10T17:59:59.000Z"
+        },
+        "firm": "Belgium"
+    } """
     triple = LottDB('triple')
     last_draw_in_base = triple.find_last('Belgium', 'date')
-    actl_draw_for_now = draw_date('EU/Belgium', 2.00, True, [time(20, 30)], [0, 1, 2, 3, 4, 5])
-    print_head('Belgium. Pick 3',
-               last_draw_in_base if last_draw_in_base else 'No resalts',
-               actl_draw_for_now)
+    actl_draw_for_now = draw_date('EU/Belgium', 2.00, True, [time(13, 30)], [0, 1, 2, 3, 4, 5])
+    print_head(
+    	'Belgium. Pick 3',
+        last_draw_in_base if last_draw_in_base else 'No resalts',
+        actl_draw_for_now)
 
     if last_draw_in_base == actl_draw_for_now:
         print_red('! results is up to date !')
@@ -56,7 +66,7 @@ def keno():
 
 def main():
     pick_3()
-    keno()
+    # keno()
 
 if __name__ == '__main__':
-    main()
+    pick_3()

@@ -11,8 +11,8 @@ def get_resalts(game, draw_numb):
     https://mylotto.co.nz/index.php/play3/results/?draw=87
     """
     link_dict = dict(play_3=['play3', 'Play 3'])
-    link = 'https://mylotto.co.nz/index.php/{}/results/?draw={}'\
-           .format(link_dict[game][0], draw_numb)
+    tmpl = 'https://mylotto.co.nz/index.php/{}/results/?draw={}'
+    link = tmpl.format(link_dict[game][0], draw_numb)
 
     r = requests.get(link)
     if r.status_code != 200:
@@ -23,9 +23,10 @@ def get_resalts(game, draw_numb):
 
     if game == 'play_3':
         """
-        document.getElementsByClassName('resultsTableInnerTable')[0]
-                .getElementsByTagName('td')[5]
-                .textContent
+        document
+        .getElementsByClassName('resultsTableInnerTable')[0]
+        .getElementsByTagName('td')[5]
+        .textContent
         """
         # уникальный - только один на странице, поетому не find_all
         sf = soup.find(class_='resultsTableInnerTable')
@@ -34,8 +35,8 @@ def get_resalts(game, draw_numb):
 
         td_list = sf.find_all('td')[5]
         rslt = [int(ball) for ball in td_list.text]
-        # только до 2015 года
-        draw_date = dt.datetime(2015, 1, 1, 8, 30) + dt.timedelta(draw_numb - 88)
+        # только до 2015 года ??? что за 88?
+        draw_date = dt.datetime(2016, 1, 1, 8, 30) + dt.timedelta(draw_numb - 88)
 
         data = dict(
             firm='New Zealand',
@@ -52,4 +53,4 @@ def get_resalts(game, draw_numb):
 
 
 if __name__ == '__main__':
-    print(get_resalts('play_3', 299))
+    print(get_resalts('play_3', 455))

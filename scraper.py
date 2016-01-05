@@ -5,10 +5,15 @@
 #       /dynamic-loading-of-python-modules
 
 from os import listdir
+# ["belgium", "california", .., "ukraine"]
 dirs = [dr for dr in listdir('modules') if not dr.startswith('__')]
-print(dirs)
-for dr in dirs:
-    # __import__(d + '.main' + '.main', fromlist=['']).main()
-    path = 'modules.' + dr + '.main'
-    modl = __import__('modules.' + dr + '.main', fromlist=[''])
+
+for fold in dirs:
+    """
+    modules.belgium.main
+    modules.ukraine.main
+    modules.new_zealand.main
+    """
+    # path = 'modules.' + fold + '.main'
+    modl = __import__('modules.' + fold + '.main', fromlist=[''])
     modl.main()

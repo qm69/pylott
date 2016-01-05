@@ -3,12 +3,22 @@
 
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import time, datetime
 pref = 'http://www.calottery.com/play/draw-games/'
 link_dict = dict(daily_3='daily-3', daily_4='daily-4')
 
+"""
+smth about
+
+Daily 3: 1:00pm and 6:30pm PT
+
+"""
+
 
 def main_page(link):
+    """
+    что делает ?
+    """
     r = requests.get(link)
     if r.status_code != 200:
         raise Exception('Status code is {}'.format(r.status_code))
@@ -23,7 +33,7 @@ def main_page(link):
         draw_data = [int(b) for b in draw]
 
         rows_text = sf.find(class_='date').text.strip()
-        for k in ['\xa0', '\r', '\n', '#', 'Winning Numbers', 'Draw', ',', '|', '   ', '2015']:
+        for k in ['\xa0', '\r', '\n', '#', 'Winning Numbers', 'Draw', ',', '|', '   ', '2016']:
             rows_text = rows_text.replace(k, '')
 
         # ['Thursday', 'September', '17', '2015', 'Midday', '13258']
@@ -32,12 +42,16 @@ def main_page(link):
         list_len = len(text_list)
 
         draw_numb = int(text_list[4]) if list_len == 5 else int(text_list[5])
-        date_text = '{} {} 2015'.format(text_list[1], text_list[2])
+        date_text = '{} {} 2016'.format(text_list[1], text_list[2])
         suit_text = text_list[3] if list_len == 5 else text_list[4]
+
+        draw_date = datetime.strptime(date_text, '%B %d %Y')
+        draw_time = time(hour=13) if suit_text == 'Midday' else time(hour=18, minute=30)
+        date_time = datetime.combine(draw_date, draw_time)
 
         resp_dict[draw_numb] = dict(
             firm='California',
-            date=datetime.strptime(date_text, '%B %d %Y'),
+            date=date_time,
             draw=draw_numb,
             rslt=draw_data,
             srtd=sorted(draw_data, key=lambda i: i),
@@ -47,6 +61,9 @@ def main_page(link):
 
 
 def past_page(game_name):
+    """
+    что делает ?
+    """
     link = pref + link_dict[game_name]
     r = requests.get(link + '/winning-numbers')
     if r.status_code != 200:
@@ -68,9 +85,13 @@ def past_page(game_name):
         date_text = '{} {} {}'.format(*text_list[:3])
         draw_data = [int(b) for b in text_list[-1]]
 
+        draw_date = datetime.strptime(date_text, '%b %d %Y')
+        draw_time = time(hour=13) if text_list[5] == 'Midday' else time(hour=18, minute=30)
+        date_time = datetime.combine(draw_date, draw_time)
+
         resp_dict[draw_numb] = dict(
             firm='California',
-            date=datetime.strptime(date_text, '%b %d %Y'),
+            date=date_time,
             draw=draw_numb,
             rslt=draw_data,
             srtd=sorted(draw_data, key=lambda i: i),

@@ -24,7 +24,7 @@ def cash_3():
         print_red('! results is up to date !')
 
     else:
-        asdf = 0 if suit_base == 'E' else 1
+        asdf = 0 if suit_base == 'e' else 1
         for draw in drange(last_date_in_base - timedelta(days=asdf), actl_draw_for_now):
             rslt = get_resalts('cash_3', draw)
             if rslt:
@@ -42,9 +42,16 @@ def cash_3():
 
 
 def play_4():
+    """ {
+        "game": "Play 4",
+        "resalt": [3, 8, 7, 3],
+        "firm": "Florida",
+        "date": { "$date": "2015-11-01T19:30:00.000Z" },
+        "suit": ["m"]
+    } """
     quatro = LottDB('quatro')
     # suit=True >> [datetime.date(2015, 9, 8), 'e']
-    last_date_in_base, suit_base = quatro.find_last('Florida', 'date', suit=True) or [date(2015, 9, 8), 'E']
+    last_date_in_base, suit_base = quatro.find_last('Florida', 'date', suit=True) or [date(2015, 9, 8), 'e']
     # suit=True >> [datetime.date(2015, 9, 8), 'm']
     actl_draw_for_now, suit_now = draw_date('EastTime', -4.00, True, [time(13, 30), time(19, 57)])
 
@@ -53,7 +60,7 @@ def play_4():
         print_red('! results is up to date !')
 
     else:
-        asdf = 0 if suit_base == 'E' else 1
+        asdf = 0 if suit_base == 'e' else 1
         for draw in drange(last_date_in_base - timedelta(days=asdf), actl_draw_for_now):
             rslt = get_resalts('play_4', draw)
             if rslt:

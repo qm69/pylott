@@ -12,16 +12,15 @@ def decima(company, dlina=12):
     resp = keno.find_many(company, dlina)
 
     meta_data = []
-    draw_balls = []
+    draw_balls = []   # ???
     small_large = []  # наименьш и наибольш
-    multiple = []  # кратный 2, 3, 4
-    odd_even = []  # чет и нечет
-    ball_rept = []  # ball repetetition
-    bigger_forty = []
+    multiple = []     # кратный 2, 3, 4
+    odd_even = []     # чет и нечет
+    ball_rept = []    # ball repetetition
+    biger_forty = []
     odd_even_20 = []
     summ_by_10, summ_by_20, summ_by_40 = [], [], []
-
-    last_draw = resp[0]['rslt']
+    last_sort = sorted(resp[0]['rslt'])
 
     for r in resp:
         draw = r['rslt']
@@ -39,10 +38,10 @@ def decima(company, dlina=12):
         """  draw balls  """
         draw_balls.append(' '.join([str(b) for b in draw]))
 
-        """ ball repeats """
+        """ ball repeats ??? """
         temp_list = ''
         for r in range(0, 20):
-            if draw[r] in last_draw:
+            if last_sort[r] in draw:
                 temp_list += colored(' 1', 'magenta')
             else:
                 temp_list += colored(' 0', 'red')
@@ -61,7 +60,7 @@ def decima(company, dlina=12):
         """
         smallest, largest = sort_arr[0], sort_arr[19]
         data_list_2 = [
-            true_false('more', 'less', True in [d in [0, 1] for d in draw]),
+            true_false('more', 'less', True in [d in [1, 2] for d in draw]),
             true_false('odds', 'even', smallest % 2 == 0),
             true_false('more', 'less', True in [d in [79, 80] for d in draw]),
             true_false('odds', 'even', largest % 2 == 0),
@@ -114,7 +113,7 @@ def decima(company, dlina=12):
 
         """ 1-20 больше 40.5 """
         data_list_9 = [colored('1', 'magenta') if d > 40.5 else colored('0', 'red') for d in draw]
-        bigger_forty.append(' '.join(data_list_9))
+        biger_forty.append(' '.join(data_list_9))
 
         """ 1-20 чет/нечет """
         data_list_3 = [colored('1', 'magenta') if d % 2 == 0 else colored('0', 'red') for d in draw]
@@ -193,14 +192,14 @@ def decima(company, dlina=12):
         ]
         summ_by_10.append((' {:>11}' * 8 + ' {:>13}' * 8).format(*data_list_7))
 
-    cprint(' draw    data    tron | [  0, 1 ] [  8, 9 ]    Summ   Diff  | odd/even  | %15 %20 ', 'blue', 'on_white')
+    cprint(' draw    data    tron | [  1, 2 ] [ 79, 80 ]    Summ   Diff  | odd/even  | %15 %20 ', 'blue', 'on_white')
     [print(' {} | {} | {} | {}'.format(meta_data[i], small_large[i], odd_even[i], multiple[i])) for i in range(dlina)]
 
     cprint(' {:^20} {:^32} {:^62}  '.format('by 40', 'by 20th', 'by 10th'), 'blue', 'on_white')
     [print(' {} | {} | {}'.format(summ_by_40[i], summ_by_20[i], summ_by_10[i])) for i in range(dlina)]
 
     cprint(' {:^40} {:^40} {:^40}  '.format('rept', '40.5', 'odd/even'), 'blue', 'on_white')
-    [print(' {} | {} | {}'.format(ball_rept[i], bigger_forty[i], odd_even_20[i])) for i in range(dlina)]
+    [print(' {} | {} | {}'.format(ball_rept[i], biger_forty[i], odd_even_20[i])) for i in range(dlina)]
 
 if __name__ == '__main__':
     decima('УНЛ', 12)

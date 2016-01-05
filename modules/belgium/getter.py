@@ -6,7 +6,8 @@ from dateutil.parser import parse
 from datetime import date, timedelta
 
 
-""" Response {
+"""
+Response {
     'Message': None,
     'Exception': None,
     'DrawType': 'Pick3Draw',
@@ -46,7 +47,10 @@ from datetime import date, timedelta
 }   }   }
 """
 
-game_name = dict(pick_3=['Pick3', 'Pick 3'], keno=['Keno', 'Keno'])
+game_name = dict(
+    pick_3=['Pick3', 'Pick 3'],
+    keno=['Keno', 'Keno']
+)
 
 
 def get_resalts(game, dd):
@@ -68,4 +72,4 @@ def get_resalts(game, dd):
     return data
 
 if __name__ == '__main__':
-    print(get_resalts('pick_3', '2015-08-12'))
+    print(get_resalts('pick_3', '2015-10-20'))

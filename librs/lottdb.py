@@ -3,7 +3,6 @@
 
 # import bson
 # import json
-from pymongo import MongoClient
 """ для поиска по _id
     from bson.objectid import ObjectId
     from pymongo import Connection
@@ -12,9 +11,16 @@ from pymongo import MongoClient
     tz_util.FixedOffset(180, "Europe/Kiev")
     print(tz_util.utc)
 """
+from pymongo import MongoClient
 
-client = MongoClient("localhost", 27017)
-db = client["pylott-dev"]
+""" https://mongolab.com
+    Account name: qm69    Username: qm69
+    Email: qm69@ua.fm     Password: saturn69
+    DBUser: qm69          DBpass: balalajka7
+"""
+MONGODB_URI = "mongodb://qm69:balalajka7@ds047474.mongolab.com:47474/lottbase"
+client = MongoClient(MONGODB_URI)
+db = client.get_default_database()
 
 
 class LottDB(object):
@@ -57,9 +63,9 @@ class LottDB(object):
         """ Find n last draws """
         try:
             return (self.game
-                    .find({'firm': firm})
-                    .sort('date', -1)
-                    .limit(amount))
+                        .find({'firm': firm})
+                        .sort('date', -1)
+                        .limit(amount))
         except Exception:
             raise Exception("LottDB.find() что-то не так")
 
@@ -115,3 +121,14 @@ class LottDB(object):
 
     def updt_many(self):
         print('LottDB.updt_many() is dump function')
+
+if __name__ == '__main__':
+    triple = LottDB('decima')
+    draw_dict = {
+        'firm': 'УНЛ',
+        'game': 'Кено',
+        'draw': 5300,
+        'suit': ['А', '4'],
+        'resalt': [5, 7, 3]
+    }
+    triple.save_one(draw_dict)

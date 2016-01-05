@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+""" !!!
+Эсли результаты за сегодня только MIDDAY,
+то линкер не может получить данные ети по ссылке.
+Нужно сгребсти их со страницы.
+"""
 import requests
 from bs4 import BeautifulSoup
 from datetime import date, time, datetime
@@ -55,8 +59,9 @@ def get_resalts(game, dd):
     soup.encode("utf8")
     if game == 'cash_3' or game == 'play_4':
         sf = soup.find(class_='winningNumbersResults')
-        if not sf:
-            raise Exception('There is no Resalts on the Page:\n{}'.format(link))
+        if sf.find('table') is None:
+            print('There is no Resalts on the Page:\n{}'.format(link))
+            return []
 
         rslt_list = []
         td_balls = [1, 3, 5] if game == 'cash_3' else [1, 3, 5, 7]
@@ -73,7 +78,8 @@ def get_resalts(game, dd):
                 suit=['m' if index == 0 else 'e'],
                 date=datetime.combine(dd, tm),
                 rslt=rslt,
-                srtd=sorted(rslt, key=lambda i: i))
+                srtd=sorted(rslt, key=lambda i: i)
+            )
             rslt_list.append(data)
 
         return rslt_list
@@ -94,6 +100,6 @@ def get_resalts(game, dd):
         return data
 
 if __name__ == '__main__':
-    print(get_resalts('cash_3', date(2015, 8, 18)))
-    print(get_resalts('play_4', date(2015, 8, 7)))
-    print(get_resalts('lucky_money', date(2015, 7, 21)))
+    print(get_resalts('cash_3', date(2016, 1, 1)))
+    print(get_resalts('play_4', date(2016, 1, 2)))
+    # print(get_resalts('lucky_money', date(2016, 7, 21)))
